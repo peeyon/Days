@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "640426266333",
+    "firebase_url": "https://days-f2366.firebaseio.com",
+    "project_id": "days-f2366",
+    "storage_bucket": "days-f2366.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:640426266333:android:35d5a1bdc10d3965c4d534",
+        "android_client_info": {
+          "package_name": "project.days"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "640426266333-upiooddsae2jd0247c53n7k6vojq6860.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzxP0uAY-MmJTPtQb9FkTObmS2GHV6i84"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "640426266333-upiooddsae2jd0247c53n7k6vojq6860.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
