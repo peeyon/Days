@@ -101,7 +101,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_below="@id/hline2"
-        android:src="@drawable/googleg_standard_color_18"
+        android:src="@drawable/google_logo"
         android:padding="25dp"
         android:layout_marginLeft="90dp"
         />
