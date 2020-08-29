@@ -1,59 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="400dp"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="@drawable/blue_bg"/>
+    tools:context=".LoginActivity"
+    >
+    <RelativeLayout
+        android:id="@+id/rl1"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@android:color/holo_blue_dark"
+        >
+
+    </RelativeLayout>
+
+
 </RelativeLayout>
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_below="@+id/linear_layout"
-    android:padding="15dp">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Login
-"       android:textSize="17dp"
-        android:layout_marginBottom="9dp"
-        android:id="@+id/login_tv"/>
-    <EditText
-        android:layout_below="@+id/login_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="12dp"
-        android:hint="Email"
-        android:id="@+id/email_et"
-        android:layout_marginBottom="10dp"
-        andriod:background="@drawable/custom_et"
-    />
-    <EditText
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:padding="12dp"
-         android:hint="Password"
-         android:id="@+id/password_et"
-        andriod:background="@drawable/custom_et"
-    />
-
-
-
-
-
-
-
-
-
-
-
-
