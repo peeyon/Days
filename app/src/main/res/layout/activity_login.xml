@@ -36,7 +36,7 @@
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
         android:textSize="20dp"
-        android:hint="Email ID"
+        android:hint="Email ID"/>
 
 
     <corners
