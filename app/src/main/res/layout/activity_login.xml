@@ -111,7 +111,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/google_logo"
-                android:padding="15dp"
+                android:padding="20dp"
                 />
             <ImageView
                 android:id="@+id/phone_icon"
@@ -119,7 +119,7 @@
                 android:layout_height="100dp"
                 android:layout_toRightOf="@id/google_icon"
                 android:src="@drawable/phone"
-                android:padding="15dp"
+                android:padding="20dp"
 
                 />
         </LinearLayout>
