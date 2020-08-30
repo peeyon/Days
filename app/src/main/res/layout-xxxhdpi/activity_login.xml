@@ -92,7 +92,7 @@
             android:background="@drawable/custom_button"/>
 
         <TextView
-            android:text="______________________________"
+            android:text="------------- OR ---------------"
             android:layout_below="@id/login_button"
             android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
