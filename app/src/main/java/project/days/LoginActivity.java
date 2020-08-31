@@ -1,14 +1,19 @@
 package project.days;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,13 +22,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     String email, password;
     private EditText EmailET, PasswordET;
     private Button LoginButton;
-    private TextView ForgotLink, signupLink;
+    private TextView ForgotLink,tvLogin;
+    private ImageButton signupLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +40,10 @@ public class LoginActivity extends AppCompatActivity {
         EmailET = (EditText) findViewById(R.id.email_et);
         PasswordET = (EditText) findViewById(R.id.password_et);
         LoginButton = (Button) findViewById(R.id.login_button);
-        ForgotLink = (TextView) findViewById(R.id.forget_password_tv);
-        signupLink = (TextView) findViewById(R.id.sign_up_tv);
+        tvLogin = (TextView) findViewById(R.id.tvLogin);
+        ForgotLink = (TextView) findViewById(R.id.tvForgot);
+        signupLink = (ImageButton) findViewById(R.id.btRegister);
+
 
         LoginButton.setOnClickListener(new View.OnClickListener()
         {
@@ -108,5 +117,16 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void onClick(View v) {
+        if (v==LoginButton){
+            Intent intent   = new Intent(LoginActivity.this,SignupActivity.class);
+            Pair[] pairs    = new Pair[1];
+            pairs[0] = new Pair<View,String>(tvLogin,"tvLogin");
+            ActivityOptions activityOptions = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,pairs);
+            startActivity(intent,activityOptions.toBundle());
+        }
     }
 }
