@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/bgHeader"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="150dp"
         android:background="@drawable/header_register"
         android:theme="@style/ToolbarTheme"
         android:elevation="5dp" />
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:elevation="10dp"
         android:transitionName="tvLogin"
         android:text="SIGNUP"
@@ -63,6 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
+                android:layout_marginTop="50dp"
                 app:cardElevation="4dp">
 
                 <LinearLayout
@@ -88,22 +89,6 @@
                         android:layout_marginRight="10dp"
                         android:inputType="textEmailAddress" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:text="Username"
-                        android:textColor="@color/colorPurple"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/signup_username"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:inputType="text" />
 
                     <TextView
 
@@ -164,25 +149,51 @@
                     android:textAllCaps="true"
                     android:textColor="@color/colorWhite" />
             </RelativeLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/r1"
+                android:padding="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="30dp"
+                android:layout_centerHorizontal="true"
+                >
+
             <TextView
                 android:id="@+id/txt2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Or signup with"
-                android:layout_below="@id/r1"
+                android:text="Made with  "
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 />
             <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:padding="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@id/txt2"
-                android:layout_marginTop="15dp"
-                android:src="@drawable/google_logo"/>
+                android:id="@+id/ht_icc"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_toRightOf="@id/txt2"
+                android:src="@drawable/heart"/>
+            <TextView
+                android:id="@+id/txt3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/ht_icc"
+                android:text="  in "
+                android:textSize="18sp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" India"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_toRightOf="@id/txt3"
+                />
+            </LinearLayout>
         </RelativeLayout>
     </ScrollView>
 
