@@ -29,11 +29,10 @@ import java.util.HashMap;
 public class SignupActivity extends AppCompatActivity {
     private RelativeLayout rlayout;
     private Animation animation;
-    private EditText EmailET, UsernameET, PasswordET, RePasswordET;
+    private EditText EmailET, PasswordET, RePasswordET;
     private Button SignupButton;
     private FirebaseAuth mAuth;
-    private DatabaseReference usersReference;
-    String email, username, password, re_password;
+    String email, password, re_password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +49,6 @@ public class SignupActivity extends AppCompatActivity {
         EmailET = (EditText) findViewById(R.id.signup_email);
         PasswordET = (EditText) findViewById(R.id.signup_password);
         RePasswordET = (EditText) findViewById(R.id.signup_confirm_password);
-        UsernameET = (EditText) findViewById(R.id.signup_username);
         SignupButton = (Button) findViewById(R.id.signupButton);
 
         mAuth = FirebaseAuth.getInstance();
@@ -61,10 +59,9 @@ public class SignupActivity extends AppCompatActivity {
                 email = EmailET.getText().toString();
                 password = PasswordET.getText().toString();
                 re_password = RePasswordET.getText().toString();
-                username = UsernameET.getText().toString();
 
                 if(!(TextUtils.isEmpty(email) && TextUtils.isEmpty(password)
-                        &&TextUtils.isEmpty(re_password) && TextUtils.isEmpty(username)))
+                        &&TextUtils.isEmpty(re_password) ))
                 {
                     if(password.equals(re_password))
                     {
@@ -74,10 +71,6 @@ public class SignupActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful())
                                         {
-                                            usersReference = FirebaseDatabase.getInstance().getReference().child("Users");
-                                            HashMap newMap = new HashMap();
-                                            newMap.put("username",username);
-                                            usersReference.child(mAuth.getCurrentUser().getUid()).updateChildren(newMap);
                                             Toast.makeText(SignupActivity.this, "Great! You're one among us now", Toast.LENGTH_SHORT).show();
                                             Intent mainIntent = new Intent(SignupActivity.this, MainActivity.class);
                                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
