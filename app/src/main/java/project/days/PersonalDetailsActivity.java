@@ -169,8 +169,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                     usersRef.child(uid).updateChildren(result);
                 }
             }
-            // Add validation here
-            // I have added the validation for gender field alone now, since it is not familiar
+
 
         });
 
