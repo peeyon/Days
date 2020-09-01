@@ -72,7 +72,7 @@ public class SignupActivity extends AppCompatActivity {
                                         if (task.isSuccessful())
                                         {
                                             Toast.makeText(SignupActivity.this, "Great! You're one among us now", Toast.LENGTH_SHORT).show();
-                                            Intent mainIntent = new Intent(SignupActivity.this, MainActivity.class);
+                                            Intent mainIntent = new Intent(SignupActivity.this, PersonalDetailsActivity.class);
                                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(mainIntent);
                                         }
