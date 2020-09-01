@@ -1,10 +1,12 @@
 package project.days;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -13,9 +15,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.FoldingCube;
+import com.github.ybq.android.spinkit.style.Wave;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -46,6 +52,10 @@ public class SignupActivity extends AppCompatActivity {
         animation = AnimationUtils.loadAnimation(this,R.anim.uptodowndiagonal);
         rlayout.setAnimation(animation);
 
+        final ProgressBar progressBar = (ProgressBar)findViewById(R.id.spin_kit_reg);
+        Sprite doubleBounce = new FoldingCube();
+        progressBar.setIndeterminateDrawable(doubleBounce);
+
         EmailET = (EditText) findViewById(R.id.signup_email);
         PasswordET = (EditText) findViewById(R.id.signup_password);
         RePasswordET = (EditText) findViewById(R.id.signup_confirm_password);
@@ -67,10 +77,13 @@ public class SignupActivity extends AppCompatActivity {
                     {
                         mAuth.createUserWithEmailAndPassword(email,password)
                                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful())
                                         {
+                                            SignupButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.green));
+                                            progressBar.setVisibility(View.VISIBLE);
                                             Toast.makeText(SignupActivity.this, "Great! You're one among us now", Toast.LENGTH_SHORT).show();
                                             Intent mainIntent = new Intent(SignupActivity.this, PersonalDetailsActivity.class);
                                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

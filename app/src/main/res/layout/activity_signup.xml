@@ -139,6 +139,19 @@
                 android:layout_marginRight="35dp"
                 android:elevation="10dp">
 
+                <com.github.ybq.android.spinkit.SpinKitView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/spin_kit_reg"
+                    style="@style/SpinKitView.Large.Wave"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:padding="5dp"
+                    android:elevation="10dp"
+                    android:visibility="gone"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    app:SpinKit_Color="@color/colorWhite" />
+
                 <Button
                     android:id="@+id/signupButton"
                     android:layout_width="match_parent"

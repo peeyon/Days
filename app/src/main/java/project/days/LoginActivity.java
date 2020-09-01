@@ -3,7 +3,6 @@ package project.days;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
@@ -14,9 +13,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.sprite.Sprite;
+import com.github.ybq.android.spinkit.style.Wave;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -38,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
     private ImageButton signupLink;
     private DatabaseReference usersRef;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,23 +54,33 @@ public class LoginActivity extends AppCompatActivity {
         ForgotLink = (TextView) findViewById(R.id.tvForgot);
         signupLink = (ImageButton) findViewById(R.id.btRegister);
 
+        final ProgressBar progressBar = (ProgressBar)findViewById(R.id.spin_kit);
+        Sprite doubleBounce = new Wave();
+        progressBar.setIndeterminateDrawable(doubleBounce);
+
 
 
         LoginButton.setOnClickListener(new View.OnClickListener()
         {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
                 email = EmailET.getText().toString();
                 password = PasswordET.getText().toString();
                 if(!(TextUtils.isEmpty(email) && TextUtils.isEmpty(password)))
                 {
+
+
                     mAuth.signInWithEmailAndPassword(email,password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(task.isSuccessful())
                                     {
-                                        Toast.makeText(LoginActivity.this, "Authenticated successfully", Toast.LENGTH_SHORT).show();
+                                        LoginButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.green));
+                                        progressBar.setVisibility(View.VISIBLE);
+
+                                   //     Toast.makeText(LoginActivity.this, "Authenticated successfully", Toast.LENGTH_SHORT).show();
                                         usersRef = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid());
                                         usersRef.addValueEventListener(new ValueEventListener() {
                                             @Override
@@ -95,6 +109,9 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                     else
                                     {
+                                      /*  progressBar.setVisibility(View.GONE);
+                                        LoginButton.setBackgroundTintList(null);*/
+
                                         String message = task.getException().getMessage().toString();
                                         Toast.makeText(LoginActivity.this, "Error occured. "+message, Toast.LENGTH_SHORT).show();
                                     }

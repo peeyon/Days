@@ -154,16 +154,29 @@
                 android:layout_marginTop="-50dp"
                 android:layout_marginRight="35dp"
                 android:elevation="10dp">
+                <com.github.ybq.android.spinkit.SpinKitView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/spin_kit"
+                    style="@style/SpinKitView.Large.Wave"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:padding="5dp"
+                    android:elevation="10dp"
+                    android:visibility="gone"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    app:SpinKit_Color="@color/colorWhite" />
 
                 <Button
                     android:id="@+id/login_button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@drawable/bg_ui"
+                    android:drawablePadding="5dp"
                     android:text="LOGIN"
                     android:textAllCaps="true"
-                    android:textSize="18sp"
-                    android:textColor="@color/colorWhite" />
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp" />
             </RelativeLayout>
 
             <RelativeLayout
