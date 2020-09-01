@@ -1,9 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileSelectActivity">
+    tools:context=".ProfileSelectActivity"
+    android:background="@drawable/header_login"
+    >
+    <TextView
+        android:id="@+id/txtt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Excited to see you"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:padding="5dp"
+        android:textSize="30sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image_select"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_below="@id/txtt1"
+        app:civ_border_width="3dp"
+        android:scaleType="centerCrop"
+        android:padding="10dp"
+        android:elevation="10dp"
+        android:layout_marginTop="20dp"
+        app:civ_border_color="@color/colorWhite"
+        android:src="@drawable/pr_img"
+        android:layout_centerHorizontal="true"
+        />
+    <ImageView
+        android:id="@+id/tick_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:visibility="gone"
+        android:src="@drawable/ic_baseline_check_circle_24"
+        android:backgroundTint="@color/colorPurple"
+        android:layout_above="@id/lbl1"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="20dp"
+        />
+    <TextView
+        android:id="@+id/lbl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You're looking cool"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:layout_above="@id/good_to_go_button"
+        android:textSize="25sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="60dp"
+        android:textColor="@color/colorPurple"
+        />
+
+    <Button
+        android:id="@+id/good_to_go_button"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:background="@drawable/bg_ui"
+        android:text="Good to go"
+        android:textColor="@android:color/white"
+        android:inputType="text"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
+        android:textStyle="bold"/>
+
+</RelativeLayout>

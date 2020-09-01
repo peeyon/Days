@@ -1,6 +1,7 @@
 package project.days;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,8 +13,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -155,7 +159,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                 }
                 if(!(TextUtils.isEmpty(name)&&TextUtils.isEmpty(date)&&TextUtils.isEmpty(gender)))
                 {
-                    Toast.makeText(PersonalDetailsActivity.this, "Successfully Submitted", Toast.LENGTH_SHORT).show();
+
                     usersRef = FirebaseDatabase.getInstance().getReference("Users");
                     uid = mAuth.getCurrentUser().getUid();
                     HashMap<String,Object> result=new HashMap<>();
@@ -166,7 +170,23 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                     {
                         result.put("Nickname",nickname);
                     }
-                    usersRef.child(uid).updateChildren(result);
+                    usersRef.child(uid).updateChildren(result).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful())
+                            {
+                                Toast.makeText(PersonalDetailsActivity.this, "Wow! We are so close now", Toast.LENGTH_SHORT).show();
+                                Intent mainIntent = new Intent(PersonalDetailsActivity.this, ProfileSelectActivity.class);
+                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(mainIntent);
+                            }
+                            else
+                            {
+                                String message = task.getException().getMessage();
+                                Toast.makeText(PersonalDetailsActivity.this, "Error occured. "+message, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
             }
 
