@@ -1,20 +1,25 @@
 package project.days;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class PersonalDetailsActivity extends AppCompatActivity {
 
@@ -25,12 +30,15 @@ public class PersonalDetailsActivity extends AppCompatActivity {
     boolean maleb,femaleb, otherb;
     String name,nickname,gender,date;
     int year,month,day;
+    private FirebaseAuth mAuth;
+    private DatabaseReference usersRef;
+    private DatabaseReference uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_details);
-
+        mAuth=FirebaseAuth.getInstance();
         MaleT = (TextView) findViewById(R.id.male_select);
         FemaleT = (TextView) findViewById(R.id.female_select);
         OtherT = (TextView) findViewById(R.id.other_select);
@@ -128,9 +136,43 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                     if(otherb)
                         gender = "Other";
                 }
+                name=NameET.getText().toString();
+                nickname=NickNameET.getText().toString();
+                if(TextUtils.isEmpty(name))
+                {
+                    NameET.setError("Name is Required");
+                    return;
+                }
+                if(TextUtils.isEmpty(date))
+                {
+                    DateT.setError("Date of Birth is Required");
+                    return;
+                }
+                if(TextUtils.isEmpty(gender))
+                {
+                    Toast.makeText(PersonalDetailsActivity.this, "Please select your gender", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!(TextUtils.isEmpty(name)&&TextUtils.isEmpty(date)&&TextUtils.isEmpty(gender)))
+                {
+                    Toast.makeText(PersonalDetailsActivity.this, "Successfully Submitted", Toast.LENGTH_SHORT).show();
+                    usersRef = FirebaseDatabase.getInstance().getReference("users");
+                    uid = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid());
+                    String userid=uid.toString();
+                    HashMap<String,Object> result=new HashMap<>();
+                    result.put("Name",name);
+                    result.put("DOB",date);
+                    result.put("Gender",gender);
+                    if(!(TextUtils.isEmpty(nickname)))
+                    {
+                        result.put("Nickname",nickname);
+                    }
+                    usersRef.child(userid).setValue(result);
+                }
             }
             // Add validation here
             // I have added the validation for gender field alone now, since it is not familiar
+
         });
 
     }
