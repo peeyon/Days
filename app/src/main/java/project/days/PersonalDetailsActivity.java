@@ -32,7 +32,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
     int year,month,day;
     private FirebaseAuth mAuth;
     private DatabaseReference usersRef;
-    private DatabaseReference uid;
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,9 +156,8 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                 if(!(TextUtils.isEmpty(name)&&TextUtils.isEmpty(date)&&TextUtils.isEmpty(gender)))
                 {
                     Toast.makeText(PersonalDetailsActivity.this, "Successfully Submitted", Toast.LENGTH_SHORT).show();
-                    usersRef = FirebaseDatabase.getInstance().getReference("users");
-                    uid = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid());
-                    String userid=uid.toString();
+                    usersRef = FirebaseDatabase.getInstance().getReference("Users");
+                    uid = mAuth.getCurrentUser().getUid();
                     HashMap<String,Object> result=new HashMap<>();
                     result.put("Name",name);
                     result.put("DOB",date);
@@ -167,7 +166,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                     {
                         result.put("Nickname",nickname);
                     }
-                    usersRef.child(userid).setValue(result);
+                    usersRef.child(uid).updateChildren(result);
                 }
             }
             // Add validation here
