@@ -1,10 +1,5 @@
 package project.days;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,18 +14,17 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.FoldingCube;
-import com.github.ybq.android.spinkit.style.Wave;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.crashlytics.internal.model.CrashlyticsReport;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
 
 public class SignupActivity extends AppCompatActivity {
     private RelativeLayout rlayout;
@@ -97,6 +91,10 @@ public class SignupActivity extends AppCompatActivity {
 
                                     }
                                 });
+                    }
+                    else
+                    {
+                        Toast.makeText(SignupActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else
