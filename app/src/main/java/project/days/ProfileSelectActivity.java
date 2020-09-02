@@ -28,6 +28,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageActivity;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
 
 import java.net.URI;
 import java.net.URL;
@@ -40,13 +44,14 @@ public class ProfileSelectActivity extends AppCompatActivity {
     private CircleImageView imageView;
     private TextView resText;
     private ImageView tickImage;
-    public Uri imageUri;
+    public Uri imageUri, croppedUi;
     private Task<Uri> downloadUrl;
     private FirebaseAuth mAuth;
     private DatabaseReference usersRef;
-    private StorageReference storageReference;
+    private StorageReference storageReference,filePath;
     private Button goodtogoButton;
     String currentUserID;
+    ProgressDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,10 @@ public class ProfileSelectActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         usersRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserID);
-        storageReference = FirebaseStorage.getInstance().getReference().child("Profile Images/" + currentUserID);
+        storageReference = FirebaseStorage.getInstance().getReference("Profile Images");
+        mDialog = new ProgressDialog(this);
+
+
 
         goodtogoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,24 +99,24 @@ public class ProfileSelectActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,1);
+        startActivityForResult(intent,10);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode==1 && resultCode==RESULT_OK && data!= null && data.getData()!=null)
+        if (requestCode== 10 && resultCode==RESULT_OK && data!= null && data.getData()!=null)
         {
             imageUri = data.getData();
-            imageView.setImageURI(imageUri);
             uploadPicture();
         }
 
     }
 
     private void uploadPicture() {
-        storageReference.putFile(imageUri)
+        filePath = storageReference.child(currentUserID + ".jpg");
+        filePath.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
