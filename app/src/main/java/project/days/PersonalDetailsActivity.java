@@ -152,7 +152,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                     Toast.makeText(PersonalDetailsActivity.this, "Date  of Birth is required", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                /*if(year<1950)
+                /*if(year<1940)
                 {
                     Toast.makeText(PersonalDetailsActivity.this, "Please provide a valid Date of Birth", Toast.LENGTH_SHORT).show();
                 }*/
