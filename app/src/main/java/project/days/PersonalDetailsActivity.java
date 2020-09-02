@@ -149,9 +149,13 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                 }
                 if(TextUtils.isEmpty(date))
                 {
-                    DateT.setError("Date of Birth is Required");
+                    Toast.makeText(PersonalDetailsActivity.this, "Date  of Birth is required", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                /*if(year<1950)
+                {
+                    Toast.makeText(PersonalDetailsActivity.this, "Please provide a valid Date of Birth", Toast.LENGTH_SHORT).show();
+                }*/
                 if(TextUtils.isEmpty(gender))
                 {
                     Toast.makeText(PersonalDetailsActivity.this, "Please select your gender", Toast.LENGTH_SHORT).show();
