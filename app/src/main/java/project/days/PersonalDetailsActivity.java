@@ -176,7 +176,6 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                 else
                 {
                     Toast.makeText(PersonalDetailsActivity.this,  "Please fill the mandatory fields. Only Nickname is optional", Toast.LENGTH_SHORT).show();
-                    return;
                 }
             }
 
