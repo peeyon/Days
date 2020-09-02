@@ -177,6 +177,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
+                        android:hint="Optional"
+                        android:textColorHint="@color/grey"
                         android:layout_marginRight="15dp"
                         android:inputType="text" />
 

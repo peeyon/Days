@@ -142,25 +142,6 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                 }
                 name=NameET.getText().toString();
                 nickname=NickNameET.getText().toString();
-                if(TextUtils.isEmpty(name))
-                {
-                    NameET.setError("Name is Required");
-                    return;
-                }
-                if(TextUtils.isEmpty(date))
-                {
-                    Toast.makeText(PersonalDetailsActivity.this, "Date  of Birth is required", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                /*if(year<1940)
-                {
-                    Toast.makeText(PersonalDetailsActivity.this, "Please provide a valid Date of Birth", Toast.LENGTH_SHORT).show();
-                }*/
-                if(TextUtils.isEmpty(gender))
-                {
-                    Toast.makeText(PersonalDetailsActivity.this, "Please select your gender", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 if(!(TextUtils.isEmpty(name)&&TextUtils.isEmpty(date)&&TextUtils.isEmpty(gender)))
                 {
 
@@ -191,6 +172,10 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                             }
                         }
                     });
+                }
+                else
+                {
+                    Toast.makeText(PersonalDetailsActivity.this, "Please fill the mandatory fields. Only Nickname is optional", Toast.LENGTH_SHORT).show();
                 }
             }
 
