@@ -2,6 +2,7 @@ package project.days;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.media.Image;
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +46,7 @@ public class ProfileSelectActivity extends AppCompatActivity {
     private CircleImageView imageView;
     private TextView resText;
     private ImageView tickImage;
-    public Uri imageUri, croppedUi;
+    public Uri imageUri;
     private Task<Uri> downloadUrl;
     private FirebaseAuth mAuth;
     private DatabaseReference usersRef;
@@ -73,16 +75,10 @@ public class ProfileSelectActivity extends AppCompatActivity {
         goodtogoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(downloadUrl != null)
-                {
-                    Intent mainIntent = new Intent(ProfileSelectActivity.this, MainActivity.class);
-                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(mainIntent);
-                }
+                if(imageUri != null)
+                    uploadPicture();
                 else
-                {
                     Toast.makeText(ProfileSelectActivity.this, "We would love to see you :)", Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
@@ -102,6 +98,7 @@ public class ProfileSelectActivity extends AppCompatActivity {
         startActivityForResult(intent,10);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -109,12 +106,20 @@ public class ProfileSelectActivity extends AppCompatActivity {
         if (requestCode== 10 && resultCode==RESULT_OK && data!= null && data.getData()!=null)
         {
             imageUri = data.getData();
-            uploadPicture();
+            imageView.setImageURI(imageUri);
+            resText.setVisibility(View.VISIBLE);
+            tickImage.setVisibility(View.VISIBLE);
+            goodtogoButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.green));
+
         }
 
     }
 
     private void uploadPicture() {
+
+        mDialog.setTitle("Please wait");
+        mDialog.setMessage("We are setting up your profile");
+        mDialog.show();
         filePath = storageReference.child(currentUserID + ".jpg");
         filePath.putFile(imageUri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -129,16 +134,21 @@ public class ProfileSelectActivity extends AppCompatActivity {
                                     HashMap hashMap = new HashMap();
                                     hashMap.put("profile_image",downloadUrl.toString());
                                     final ProgressDialog mDialog = new ProgressDialog(getApplicationContext());
-                                    mDialog.setTitle("Please wait");
-                                    mDialog.show();
+
                                     usersRef.updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
                                         @Override
                                         public void onComplete(@NonNull Task task) {
                                             if (task.isSuccessful())
                                             {
                                                 mDialog.hide();
-                                                resText.setVisibility(View.VISIBLE);
-                                                tickImage.setVisibility(View.VISIBLE);
+                                                Intent mainIntent = new Intent(ProfileSelectActivity.this, MainActivity.class);
+                                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                startActivity(mainIntent);
+                                            }
+                                            else
+                                            {
+                                                String message = task.getException().getMessage();
+                                                Toast.makeText(ProfileSelectActivity.this, "Error occured. " + message, Toast.LENGTH_SHORT).show();
                                             }
 
                                         }
