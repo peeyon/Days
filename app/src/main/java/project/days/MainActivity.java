@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(settingsIntent);
             }
         });
-
         personalCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

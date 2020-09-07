@@ -43,8 +43,7 @@ public class DiaryViewActivity extends AppCompatActivity {
             }
         });
         currentUserID = mAuth.getCurrentUser().getUid();
-        Intent getter = new Intent();
-        type = getter.getStringExtra("type");
+        type = getIntent().getStringExtra("type");
         if (type.equals("personal"))
             diaryReference = FirebaseDatabase.getInstance().getReference("Users").child("Private Diaries");
         if(type.equals("group"))
