@@ -20,7 +20,7 @@
         android:layout_marginLeft="45dp"
         />
     <ImageView
-        android:id="@+id/settings_icon"
+        android:id="@+id/settings_icon_main"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/settings_vec_icon"

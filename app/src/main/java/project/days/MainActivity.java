@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         personalCard = (CardView) findViewById(R.id.inner_card_1);
         groupCard = (CardView) findViewById(R.id.inner_card_2);
-        settingsIcon = (ImageView) findViewById(R.id.settings_icon);
+        settingsIcon = (ImageView) findViewById(R.id.settings_icon_main);
 
         settingsIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,14 +44,18 @@ public class MainActivity extends AppCompatActivity {
         personalCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent diaryIntent = new Intent(MainActivity.this, DiaryViewActivity.class);
+                diaryIntent.putExtra("type","personal");
+                startActivity(diaryIntent);
             }
         });
 
         groupCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent diaryIntent = new Intent(MainActivity.this, DiaryViewActivity.class);
+                diaryIntent.putExtra("type","group");
+                startActivity(diaryIntent);
             }
         });
 

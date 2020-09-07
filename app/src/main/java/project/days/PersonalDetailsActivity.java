@@ -161,7 +161,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                             if (task.isSuccessful())
                             {
                                 Toast.makeText(PersonalDetailsActivity.this, "Wow! We are so close now", Toast.LENGTH_SHORT).show();
-                                Intent mainIntent = new Intent(PersonalDetailsActivity.this, ProfileSelectActivity.class);
+                                Intent mainIntent = new Intent(PersonalDetailsActivity.this, MainActivity.class);
                                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(mainIntent);
                             }
