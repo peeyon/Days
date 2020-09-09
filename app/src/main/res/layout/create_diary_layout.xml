@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/outer_border_lt"
+    android:padding="50dp"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="35dp"
+        >
+    <TextView
+        android:id="@+id/crt_dry_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Create diary"
+        android:padding="5dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        />
+    <EditText
+        android:id="@+id/crt_dry_name"
+        android:hint="Diary name"
+        android:background="@android:color/transparent"
+        android:layout_width="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="40dp"
+        android:inputType="text"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:layout_marginTop="25dp"
+        android:textColorHint="@color/grey"
+        android:layout_below="@+id/crt_dry_title"
+        android:padding="5dp"
+        />
+
+        <Button
+            android:id="@+id/crt_dry_btn"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bt_uifb"
+            android:text="Create"
+            android:layout_below="@id/crt_dry_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            />
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

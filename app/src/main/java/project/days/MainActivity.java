@@ -42,10 +42,12 @@ public class MainActivity extends AppCompatActivity {
                 if (snapshot.hasChild("Nickname"))
                 {
                     nickname = snapshot.child("Nickname").getValue().toString();
+                    greetText.setText("Hello " + nickname);
                 }
                 else
                 {
                     nickname = snapshot.child("Name").getValue().toString();
+                    greetText.setText("Hello " + nickname);
                 }
             }
 
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        greetText.setText("Hello " + nickname);
+
         personalCard = (CardView) findViewById(R.id.inner_card_1);
         groupCard = (CardView) findViewById(R.id.inner_card_2);
         settingsIcon = (ImageView) findViewById(R.id.settings_icon_main);

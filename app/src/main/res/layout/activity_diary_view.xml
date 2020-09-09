@@ -65,5 +65,35 @@
                 />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
-
+    <TextView
+        android:id="@+id/create_diary_text"
+        android:layout_above="@id/create_diary_button"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+        android:textSize="23sp"
+        android:padding="10dp"
+        android:text="We want you to keep track of your wonderful memories along with colors of them. "
+        android:layout_marginBottom="45dp"
+        />
+    <Button
+        android:id="@+id/create_diary_button"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        android:background="@drawable/bt_uifb"
+        android:text="Share your memories"
+        android:textColor="@color/colorPurple"
+        android:drawableLeft="@drawable/mem_create_icon"
+        android:drawableTint="@color/colorPurple"
+        android:drawablePadding="2dp"
+        android:layout_marginBottom="30dp"
+        android:textSize="18sp"
+        android:padding="10dp"
+        android:inputType="text"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        />
 </RelativeLayout>

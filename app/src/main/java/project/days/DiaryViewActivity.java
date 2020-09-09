@@ -1,16 +1,29 @@
 package project.days;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,6 +33,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.HashMap;
+
+import static java.security.AccessController.getContext;
+
 public class DiaryViewActivity extends AppCompatActivity {
 
     private TextView AlertText;
@@ -27,13 +44,21 @@ public class DiaryViewActivity extends AppCompatActivity {
     private DatabaseReference diaryReference;
     private ImageView backBtn;
     private String currentUserID,type;
+    private GridLayout gridLayout;
+    private Button createButton;
+    private TextView createText;
+    boolean personal, grp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_view);
         mAuth = FirebaseAuth.getInstance();
+        currentUserID = mAuth.getCurrentUser().getUid();
         backBtn = (ImageView) findViewById(R.id.bck_arrow_icon_dmain);
+        createButton = (Button) findViewById(R.id.create_diary_button);
+        createText = (TextView) findViewById(R.id.create_diary_text);
+        gridLayout = (GridLayout) findViewById(R.id.grid_dmain);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,9 +70,9 @@ public class DiaryViewActivity extends AppCompatActivity {
         currentUserID = mAuth.getCurrentUser().getUid();
         type = getIntent().getStringExtra("type");
         if (type.equals("personal"))
-            diaryReference = FirebaseDatabase.getInstance().getReference("Users").child("Private Diaries");
+            diaryReference = FirebaseDatabase.getInstance().getReference("Users").child(currentUserID).child("Private Diaries");
         if(type.equals("group"))
-            diaryReference = FirebaseDatabase.getInstance().getReference("Users").child("Shared Diaries");
+            diaryReference = FirebaseDatabase.getInstance().getReference("Users").child(currentUserID).child("Shared Diaries");
         AlertText = (TextView) findViewById(R.id.visibility_notice);
 
         diaryReference.addValueEventListener(new ValueEventListener() {
@@ -57,6 +82,12 @@ public class DiaryViewActivity extends AppCompatActivity {
                 {
                     AlertText.setText("Oops..! We can't find any diaries of you..!");
                     AlertText.setVisibility(View.VISIBLE);
+                    createButton.setVisibility(View.VISIBLE);
+                    createText.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+
                 }
 
             }
@@ -64,6 +95,57 @@ public class DiaryViewActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View view) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(DiaryViewActivity.this);
+
+                View viewInflated = LayoutInflater.from(DiaryViewActivity.this).inflate(R.layout.create_diary_layout,null,false);
+                builder.setView(viewInflated);
+                builder.show();
+                final EditText nameET = (EditText) viewInflated.findViewById(R.id.crt_dry_name);
+
+                Button crt_btn = (Button) viewInflated.findViewById(R.id.crt_dry_btn);
+                crt_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String name = nameET.getText().toString();
+
+                        if (TextUtils.isEmpty(name))
+                        {
+                            Toast.makeText(DiaryViewActivity.this, "It would be easy if the diary is named", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            HashMap hashMap = new HashMap();
+                            hashMap.put("text","Sample Test");
+                            diaryReference.child(name).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
+                                @Override
+                                public void onComplete(@NonNull Task task) {
+                                    if (task.isSuccessful())
+                                    {
+                                        Intent selfIntent = new Intent(DiaryViewActivity.this, DiaryViewActivity.class);
+                                        selfIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(selfIntent);
+                                        Toast.makeText(DiaryViewActivity.this, "Diary created successfully", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        String msg = task.getException().getMessage();
+                                        Toast.makeText(DiaryViewActivity.this, "Error. " + msg, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                        }
+
+                    }
+                });
             }
         });
 
