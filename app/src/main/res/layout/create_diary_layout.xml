@@ -23,7 +23,6 @@
     <EditText
         android:id="@+id/crt_dry_name"
         android:hint="Diary name"
-        android:background="@android:color/transparent"
         android:layout_width="200dp"
         android:layout_centerHorizontal="true"
         android:layout_height="40dp"

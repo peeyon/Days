@@ -30,6 +30,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 
 import org.w3c.dom.Text;
 
@@ -47,7 +48,7 @@ public class DiaryViewActivity extends AppCompatActivity {
     private GridLayout gridLayout;
     private Button createButton;
     private TextView createText;
-    boolean personal, grp;
+    String tt = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +69,17 @@ public class DiaryViewActivity extends AppCompatActivity {
             }
         });
         currentUserID = mAuth.getCurrentUser().getUid();
-        type = getIntent().getStringExtra("type");
-        if (type.equals("personal"))
-            diaryReference = FirebaseDatabase.getInstance().getReference("Users").child(currentUserID).child("Private Diaries");
-        if(type.equals("group"))
-            diaryReference = FirebaseDatabase.getInstance().getReference("Users").child(currentUserID).child("Shared Diaries");
+
+        type =  getIntent().getStringExtra("type");
+        diaryReference = FirebaseDatabase.getInstance().getReference("Users").child(currentUserID);
+            if (type.equals("personal"))
+                tt = "Private Diaries";
+            if (type.equals("group"))
+                tt = "Shared Diaries";
+
         AlertText = (TextView) findViewById(R.id.visibility_notice);
 
-        diaryReference.addValueEventListener(new ValueEventListener() {
+        diaryReference.child(tt).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists())
@@ -107,10 +111,10 @@ public class DiaryViewActivity extends AppCompatActivity {
 
                 View viewInflated = LayoutInflater.from(DiaryViewActivity.this).inflate(R.layout.create_diary_layout,null,false);
                 builder.setView(viewInflated);
-                builder.show();
                 final EditText nameET = (EditText) viewInflated.findViewById(R.id.crt_dry_name);
 
                 Button crt_btn = (Button) viewInflated.findViewById(R.id.crt_dry_btn);
+                builder.show();
                 crt_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -124,14 +128,12 @@ public class DiaryViewActivity extends AppCompatActivity {
                         {
                             HashMap hashMap = new HashMap();
                             hashMap.put("text","Sample Test");
-                            diaryReference.child(name).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
+
+                            diaryReference.child(tt).child(name).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
                                     if (task.isSuccessful())
                                     {
-                                        Intent selfIntent = new Intent(DiaryViewActivity.this, DiaryViewActivity.class);
-                                        selfIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        startActivity(selfIntent);
                                         Toast.makeText(DiaryViewActivity.this, "Diary created successfully", Toast.LENGTH_SHORT).show();
                                     }
                                     else
