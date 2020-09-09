@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         googlesignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn();
+                GoogleSignIn();
             }
         });
 
@@ -187,7 +187,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void signIn() {
+    private void GoogleSignIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
