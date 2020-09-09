@@ -226,6 +226,7 @@
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/google_logo"
                 android:layout_below="@id/txt1"
+                android:id="@+id/gsignin"
                 />
         </RelativeLayout>
     </ScrollView>
