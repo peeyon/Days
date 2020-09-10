@@ -60,6 +60,7 @@ public class DiaryViewActivity extends AppCompatActivity {
         createButton = (Button) findViewById(R.id.create_diary_button);
         createText = (TextView) findViewById(R.id.create_diary_text);
         gridLayout = (GridLayout) findViewById(R.id.grid_dmain);
+
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
