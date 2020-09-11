@@ -3,10 +3,12 @@ package project.days;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,12 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.ImageView;
-import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,23 +31,19 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.annotations.NotNull;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
-
-import static java.security.AccessController.getContext;
 
 public class DiaryViewActivity extends AppCompatActivity {
 
     private TextView AlertText;
     private FirebaseAuth mAuth;
-    private DatabaseReference diaryReference;
+    private DatabaseReference diaryReference,usersReference;
     private ImageView backBtn;
     private String currentUserID,type;
-    private GridLayout gridLayout;
+    private RecyclerView gridLayout;
     private Button createButton;
     private TextView createText;
     String tt = null;
@@ -59,7 +57,8 @@ public class DiaryViewActivity extends AppCompatActivity {
         backBtn = (ImageView) findViewById(R.id.bck_arrow_icon_dmain);
         createButton = (Button) findViewById(R.id.create_diary_button);
         createText = (TextView) findViewById(R.id.create_diary_text);
-        gridLayout = (GridLayout) findViewById(R.id.grid_dmain);
+        gridLayout = (RecyclerView) findViewById(R.id.grid_dmain);
+        usersReference =  FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,15 +71,20 @@ public class DiaryViewActivity extends AppCompatActivity {
         currentUserID = mAuth.getCurrentUser().getUid();
 
         type =  getIntent().getStringExtra("type");
-        diaryReference = FirebaseDatabase.getInstance().getReference("Users").child(currentUserID);
-            if (type.equals("personal"))
+        diaryReference = FirebaseDatabase.getInstance().getReference("Diaries");
+            if (type.equals("personal")) {
                 tt = "Private Diaries";
+
+            }
             if (type.equals("group"))
                 tt = "Shared Diaries";
 
         AlertText = (TextView) findViewById(R.id.visibility_notice);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
+        gridLayoutManager.setReverseLayout(true);
+        gridLayout.setLayoutManager(gridLayoutManager);
 
-        diaryReference.child(tt).addValueEventListener(new ValueEventListener() {
+        usersReference.child(tt).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (!snapshot.exists())
@@ -92,6 +96,7 @@ public class DiaryViewActivity extends AppCompatActivity {
                 }
                 else
                 {
+                    AlertText.setVisibility(View.GONE);
 
                 }
 
@@ -102,6 +107,8 @@ public class DiaryViewActivity extends AppCompatActivity {
 
             }
         });
+
+        DisplayDiaries();
 
 
         createButton.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +126,7 @@ public class DiaryViewActivity extends AppCompatActivity {
                 crt_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String name = nameET.getText().toString();
+                        final String name = nameET.getText().toString();
 
                         if (TextUtils.isEmpty(name))
                         {
@@ -127,14 +134,17 @@ public class DiaryViewActivity extends AppCompatActivity {
                         }
                         else
                         {
-                            HashMap hashMap = new HashMap();
+                            HashMap<String, Object> hashMap = new HashMap<>();
                             hashMap.put("text","Sample Test");
 
-                            diaryReference.child(tt).child(name).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
+                            diaryReference.child(name + currentUserID).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
                                     if (task.isSuccessful())
                                     {
+                                        HashMap hmap = new HashMap();
+                                        hmap.put("diary_id", name+currentUserID);
+                                        usersReference.child(tt).updateChildren(hmap);
                                         Toast.makeText(DiaryViewActivity.this, "Diary created successfully", Toast.LENGTH_SHORT).show();
                                     }
                                     else
@@ -151,6 +161,27 @@ public class DiaryViewActivity extends AppCompatActivity {
                 });
             }
         });
+
+    }
+
+    private void DisplayDiaries() {
+
+    }
+
+    public static class DiaryViewHolder extends RecyclerView.ViewHolder
+    {
+
+        View mView;
+
+        public DiaryViewHolder(@NonNull View itemView) {
+            super(itemView);
+            mView = itemView;
+
+        }
+        public void setDiary_name(String text) {
+            TextView nameET = (TextView) mView.findViewById(R.id.diary_view_name);
+            nameET.setText(text);
+        }
 
     }
 }
