@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="7dp"
-    android:background="@drawable/outer_border_lt"
+
     app:cardElevation="0dp">
     <RelativeLayout
         android:layout_width="wrap_content"
+        android:padding="6dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/custom_et"
         android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/diary_view_img"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
+        android:layout_width="120dp"
+        android:layout_height="100dp"
         android:padding="5dp"
         android:src="@drawable/diary"/>
     <TextView
@@ -23,8 +26,8 @@
         android:layout_below="@id/diary_view_img"
         android:layout_centerHorizontal="true"
         android:textStyle="bold"
-        android:textSize="25sp"
-        android:padding="2dp"/>
+        android:textSize="16sp"
+        android:padding="5dp"/>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

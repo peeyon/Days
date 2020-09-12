@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -99,6 +100,7 @@ public class DiaryViewActivity extends AppCompatActivity {
                     AlertText.setVisibility(View.VISIBLE);
                     createButton.setVisibility(View.VISIBLE);
                     createText.setVisibility(View.VISIBLE);
+                    recyclerLayout.setVisibility(View.GONE);
                 }
                 else
                 {
@@ -169,7 +171,7 @@ public class DiaryViewActivity extends AppCompatActivity {
                                     {
                                         HashMap hmap = new HashMap();
                                         hmap.put("diary_id", name+currentUserID);
-                                        usersReference.child(tt).updateChildren(hmap);
+                                        usersReference.child(tt).child(name+currentUserID).updateChildren(hmap);
                                         Toast.makeText(DiaryViewActivity.this, "Diary created successfully", Toast.LENGTH_SHORT).show();
                                     }
                                     else
