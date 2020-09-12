@@ -12,8 +12,13 @@
         android:roundIcon="@drawable/lg1"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DiaryViewActivity" android:parentActivityName=".MainActivity"></activity>
-        <activity android:name=".SettingsActivity" android:parentActivityName=".MainActivity"/>
+        <activity android:name=".DiaryContentActivity"></activity>
+        <activity
+            android:name=".DiaryViewActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".ProfileSelectActivity" />
         <activity android:name=".PersonalDetailsActivity" />
         <activity

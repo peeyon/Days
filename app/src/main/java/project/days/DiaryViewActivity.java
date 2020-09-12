@@ -131,7 +131,13 @@ public class DiaryViewActivity extends AppCompatActivity {
             public DiariesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.diary_view_layout,parent,false);
-
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent dIntent = new Intent(DiaryViewActivity.this, DiaryContentActivity.class);
+                        startActivity(dIntent);
+                    }
+                });
                 return new DiariesViewHolder(view);
             }
         };
