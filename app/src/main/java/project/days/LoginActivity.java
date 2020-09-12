@@ -69,6 +69,12 @@ public class LoginActivity extends AppCompatActivity {
         Sprite doubleBounce = new Wave();
         progressBar.setIndeterminateDrawable(doubleBounce);
 
+        if(mAuth.getCurrentUser() != null)
+        {
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            finish();
+        }
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
