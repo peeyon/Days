@@ -75,78 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        googlesignin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GoogleSignIn();
-            }
-        });
-
-        LoginButton.setOnClickListener(new View.OnClickListener()
-        {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onClick(View view) {
-                email = EmailET.getText().toString();
-                password = PasswordET.getText().toString();
-                if(!(TextUtils.isEmpty(email) && TextUtils.isEmpty(password)))
-                {
 
 
-                    mAuth.signInWithEmailAndPassword(email,password)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if(task.isSuccessful())
-                                    {
-                                        LoginButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.green));
-                                        progressBar.setVisibility(View.VISIBLE);
-
-                                   //     Toast.makeText(LoginActivity.this, "Authenticated successfully", Toast.LENGTH_SHORT).show();
-                                        usersRef = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid());
-                                        usersRef.addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                if(snapshot.exists())
-                                                {
-                                                    Intent mainIntent = new Intent(LoginActivity.this,MainActivity.class);
-                                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                    startActivity(mainIntent);
-                                                }
-                                                else
-                                                {
-                                                    Intent mainIntent = new Intent(LoginActivity.this,PersonalDetailsActivity.class);
-                                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                    startActivity(mainIntent);
-                                                }
-
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-
-                                            }
-                                        });
-
-                                    }
-                                    else
-                                    {
-                                      /*  progressBar.setVisibility(View.GONE);
-                                        LoginButton.setBackgroundTintList(null);*/
-
-                                        String message = task.getException().getMessage().toString();
-                                        Toast.makeText(LoginActivity.this, "Error occured. "+message, Toast.LENGTH_SHORT).show();
-                                    }
-
-                                }
-                            });
-                }
-                else
-                {
-                    Toast.makeText(LoginActivity.this, "Please fill all the credentials", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         ForgotLink.setOnClickListener(new View.OnClickListener()
         {
