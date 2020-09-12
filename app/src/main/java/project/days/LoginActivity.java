@@ -135,7 +135,6 @@ public class LoginActivity extends AppCompatActivity {
 
                                         String message = task.getException().getMessage().toString();
                                         Toast.makeText(LoginActivity.this, "Error occured. "+message, Toast.LENGTH_SHORT).show();
-                                        return;
                                     }
 
                                 }
@@ -144,7 +143,6 @@ public class LoginActivity extends AppCompatActivity {
                 else
                 {
                     Toast.makeText(LoginActivity.this, "Please fill all the credentials", Toast.LENGTH_SHORT).show();
-                    return;
                 }
             }
         });
@@ -172,7 +170,6 @@ public class LoginActivity extends AppCompatActivity {
                             {
                                 String message = task.getException().getMessage().toString();
                                 Toast.makeText(LoginActivity.this, "Error occured. "+message, Toast.LENGTH_SHORT).show();
-                                return;
                             }
                         }
                     });
@@ -209,7 +206,6 @@ public class LoginActivity extends AppCompatActivity {
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                return;
                 // ...
             }
         }
@@ -229,7 +225,6 @@ public class LoginActivity extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Error occurred", Toast.LENGTH_SHORT).show();
                             updateUI(null);
-                            return;
                         }
 
                         // ...
