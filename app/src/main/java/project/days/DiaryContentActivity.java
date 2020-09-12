@@ -13,6 +13,6 @@ public class DiaryContentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_content);
         Diaryheading = (EditText) findViewById(R.id.content_diary_name);
-        
+
     }
 }

@@ -164,6 +164,7 @@ public class DiaryViewActivity extends AppCompatActivity {
                         if (TextUtils.isEmpty(name))
                         {
                             Toast.makeText(DiaryViewActivity.this, "It would be easy if the diary is named", Toast.LENGTH_SHORT).show();
+                            return;
                         }
                         else
                         {
@@ -179,11 +180,13 @@ public class DiaryViewActivity extends AppCompatActivity {
                                         hmap.put("diary_id", name+currentUserID);
                                         usersReference.child(tt).child(name+currentUserID).updateChildren(hmap);
                                         Toast.makeText(DiaryViewActivity.this, "Diary created successfully", Toast.LENGTH_SHORT).show();
+                                        return;
                                     }
                                     else
                                     {
                                         String msg = task.getException().getMessage();
                                         Toast.makeText(DiaryViewActivity.this, "Error. " + msg, Toast.LENGTH_SHORT).show();
+                                        return;
                                     }
                                 }
                             });
