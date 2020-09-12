@@ -15,16 +15,20 @@
         android:padding="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"/>
-    <TextView
+    <EditText
         android:id="@+id/content_diary_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:backgroundTint="@android:color/white"
+        android:editable="false"
         android:text="diary_name"
         android:layout_toRightOf="@id/content_view_back_icon"
         android:textColor="@android:color/white"
         android:textStyle="bold"
         android:textSize="30sp"
         android:padding="5dp"
+        android:layout_marginRight="6dp"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="10dp"/>
 
@@ -32,14 +36,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardCornerRadius="40dp"
+            android:id="@+id/crt11"
             android:padding="5dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/content_diary_name"
+            android:layout_marginRight="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/content_diary_name"
             >
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                >
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/content_edit_icon"
             android:layout_width="50dp"
@@ -54,6 +62,7 @@
                 android:src="@drawable/delete_ic"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+
                 android:layout_toRightOf="@id/content_edit_icon"
                 android:padding="10dp"/>
             </RelativeLayout>
@@ -62,8 +71,10 @@
         </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:layout_below="@id/crt11"
         android:layout_width="300dp"
         app:cardCornerRadius="10dp"
+        android:layout_marginTop="20dp"
         android:layout_height="400dp"
         android:layout_centerInParent="true">
 
