@@ -43,21 +43,36 @@ public class DiaryViewActivity extends AppCompatActivity {
     private DatabaseReference diaryReference,usersReference;
     private ImageView backBtn;
     private String currentUserID,type;
-    private RecyclerView gridLayout;
+    private RecyclerView recyclerLayout;
     private Button createButton;
     private TextView createText;
-    String tt = null;
+    FirebaseRecyclerOptions<Diaries> options;
+    FirebaseRecyclerAdapter<Diaries,DiariesViewHolder> adapter;
+    public String tt = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_view);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
+
+
+
+        type =  getIntent().getStringExtra("type");
+        diaryReference = FirebaseDatabase.getInstance().getReference().child("Diaries");
+        if (type.equals("personal"))
+            tt = "Private Diaries";
+        if (type.equals("group"))
+            tt = "Shared Diaries";
+
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         backBtn = (ImageView) findViewById(R.id.bck_arrow_icon_dmain);
         createButton = (Button) findViewById(R.id.create_diary_button);
         createText = (TextView) findViewById(R.id.create_diary_text);
-        gridLayout = (RecyclerView) findViewById(R.id.grid_dmain);
+        recyclerLayout = (RecyclerView) findViewById(R.id.grid_dmain);
+        recyclerLayout.setLayoutManager(gridLayoutManager);
         usersReference =  FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -70,19 +85,10 @@ public class DiaryViewActivity extends AppCompatActivity {
         });
         currentUserID = mAuth.getCurrentUser().getUid();
 
-        type =  getIntent().getStringExtra("type");
-        diaryReference = FirebaseDatabase.getInstance().getReference("Diaries");
-            if (type.equals("personal")) {
-                tt = "Private Diaries";
 
-            }
-            if (type.equals("group"))
-                tt = "Shared Diaries";
 
         AlertText = (TextView) findViewById(R.id.visibility_notice);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
-        gridLayoutManager.setReverseLayout(true);
-        gridLayout.setLayoutManager(gridLayoutManager);
+
 
         usersReference.child(tt).addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,6 +102,7 @@ public class DiaryViewActivity extends AppCompatActivity {
                 }
                 else
                 {
+
                     AlertText.setVisibility(View.GONE);
 
                 }
@@ -108,8 +115,26 @@ public class DiaryViewActivity extends AppCompatActivity {
             }
         });
 
-        DisplayDiaries();
+        options = new FirebaseRecyclerOptions.Builder<Diaries>()
+                .setQuery(diaryReference,Diaries.class).build();
 
+        adapter = new FirebaseRecyclerAdapter<Diaries, DiariesViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull DiariesViewHolder holder, int position, @NonNull Diaries model) {
+                holder.txt.setText(model.getDiary_name());
+            }
+
+            @NonNull
+            @Override
+            public DiariesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.diary_view_layout,parent,false);
+
+                return new DiariesViewHolder(view);
+            }
+        };
+        recyclerLayout.setAdapter(adapter);
+        adapter.startListening();
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -135,7 +160,7 @@ public class DiaryViewActivity extends AppCompatActivity {
                         else
                         {
                             HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("text","Sample Test");
+                            hashMap.put("text",name);
 
                             diaryReference.child(name + currentUserID).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
                                 @Override
@@ -164,24 +189,26 @@ public class DiaryViewActivity extends AppCompatActivity {
 
     }
 
-    private void DisplayDiaries() {
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+
+        if (adapter!=null)
+            adapter.startListening();
     }
 
-    public static class DiaryViewHolder extends RecyclerView.ViewHolder
-    {
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (adapter!= null)
+            adapter.stopListening();
+    }
 
-        View mView;
-
-        public DiaryViewHolder(@NonNull View itemView) {
-            super(itemView);
-            mView = itemView;
-
-        }
-        public void setDiary_name(String text) {
-            TextView nameET = (TextView) mView.findViewById(R.id.diary_view_name);
-            nameET.setText(text);
-        }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adapter!=null)
+            adapter.startListening();
     }
 }

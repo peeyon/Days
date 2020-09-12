@@ -3,6 +3,8 @@ package project.days;
 public class Diaries {
     public String text;
 
+    public Diaries() {}
+
     public Diaries(String text) {
         this.text = text;
     }
