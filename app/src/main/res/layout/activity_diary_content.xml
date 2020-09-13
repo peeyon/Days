@@ -74,7 +74,7 @@
         android:layout_below="@id/crt11"
         android:layout_width="300dp"
         app:cardCornerRadius="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_height="400dp"
         android:layout_centerInParent="true">
 
