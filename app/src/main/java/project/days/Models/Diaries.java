@@ -1,4 +1,4 @@
-package project.days;
+package project.days.Models;
 
 public class Diaries {
     public String text;

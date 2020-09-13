@@ -1,14 +1,6 @@
 package project.days;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,9 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -32,10 +29,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+
+import project.days.Models.Diaries;
+import project.days.ViewHolders.DiariesViewHolder;
 
 public class DiaryViewActivity extends AppCompatActivity {
 
@@ -48,7 +47,7 @@ public class DiaryViewActivity extends AppCompatActivity {
     private Button createButton;
     private TextView createText;
     FirebaseRecyclerOptions<Diaries> options;
-    FirebaseRecyclerAdapter<Diaries,DiariesViewHolder> adapter;
+    FirebaseRecyclerAdapter<Diaries, DiariesViewHolder> adapter;
     public String tt = null;
 
     @Override
@@ -69,10 +68,10 @@ public class DiaryViewActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
-        backBtn = (ImageView) findViewById(R.id.bck_arrow_icon_dmain);
-        createButton = (Button) findViewById(R.id.create_diary_button);
-        createText = (TextView) findViewById(R.id.create_diary_text);
-        recyclerLayout = (RecyclerView) findViewById(R.id.grid_dmain);
+        backBtn = findViewById(R.id.bck_arrow_icon_dmain);
+        createButton = findViewById(R.id.create_diary_button);
+        createText = findViewById(R.id.create_diary_text);
+        recyclerLayout = findViewById(R.id.grid_dmain);
         recyclerLayout.setLayoutManager(gridLayoutManager);
         usersReference =  FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
 
@@ -88,7 +87,7 @@ public class DiaryViewActivity extends AppCompatActivity {
 
 
 
-        AlertText = (TextView) findViewById(R.id.visibility_notice);
+        AlertText = findViewById(R.id.visibility_notice);
 
 
         usersReference.child(tt).addValueEventListener(new ValueEventListener() {
@@ -152,9 +151,9 @@ public class DiaryViewActivity extends AppCompatActivity {
 
                 View viewInflated = LayoutInflater.from(DiaryViewActivity.this).inflate(R.layout.create_diary_layout,null,false);
                 builder.setView(viewInflated);
-                final EditText nameET = (EditText) viewInflated.findViewById(R.id.crt_dry_name);
+                final EditText nameET = viewInflated.findViewById(R.id.crt_dry_name);
 
-                Button crt_btn = (Button) viewInflated.findViewById(R.id.crt_dry_btn);
+                Button crt_btn = viewInflated.findViewById(R.id.crt_dry_btn);
                 builder.show();
                 crt_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
