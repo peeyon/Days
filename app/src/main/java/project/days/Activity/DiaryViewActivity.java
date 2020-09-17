@@ -1,4 +1,4 @@
-package project.days;
+package project.days.Activity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 import project.days.Models.Diaries;
+import project.days.R;
 import project.days.ViewHolders.DiariesViewHolder;
 
 public class DiaryViewActivity extends AppCompatActivity {

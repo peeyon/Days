@@ -1,4 +1,4 @@
-package project.days;
+package project.days.Activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -25,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import project.days.R;
+
 public class PersonalDetailsActivity extends AppCompatActivity {
 
     private EditText NameET, NickNameET;
@@ -43,10 +45,10 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_details);
         mAuth=FirebaseAuth.getInstance();
-        MaleT = (TextView) findViewById(R.id.male_select);
-        FemaleT = (TextView) findViewById(R.id.female_select);
-        OtherT = (TextView) findViewById(R.id.other_select);
-        DateT = (TextView) findViewById(R.id.pd_dob);
+        MaleT = findViewById(R.id.male_select);
+        FemaleT = findViewById(R.id.female_select);
+        OtherT = findViewById(R.id.other_select);
+        DateT = findViewById(R.id.pd_dob);
 
         DateT.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,9 +126,9 @@ public class PersonalDetailsActivity extends AppCompatActivity {
             }
         });
 
-        NameET = (EditText) findViewById(R.id.pd_name);
-        NickNameET = (EditText) findViewById(R.id.pd_nickname);
-        NextButton = (Button) findViewById(R.id.nextBtn);
+        NameET = findViewById(R.id.pd_name);
+        NickNameET = findViewById(R.id.pd_nickname);
+        NextButton = findViewById(R.id.nextBtn);
 
         NextButton.setOnClickListener(new View.OnClickListener() {
             @Override

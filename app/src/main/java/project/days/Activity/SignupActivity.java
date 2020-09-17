@@ -1,4 +1,4 @@
-package project.days;
+package project.days.Activity;
 
 import android.content.Intent;
 import android.os.Build;
@@ -26,6 +26,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import project.days.R;
+
 public class SignupActivity extends AppCompatActivity {
     private RelativeLayout rlayout;
     private Animation animation;
@@ -46,14 +48,14 @@ public class SignupActivity extends AppCompatActivity {
         animation = AnimationUtils.loadAnimation(this,R.anim.uptodowndiagonal);
         rlayout.setAnimation(animation);
 
-        final ProgressBar progressBar = (ProgressBar)findViewById(R.id.spin_kit_reg);
+        final ProgressBar progressBar = findViewById(R.id.spin_kit_reg);
         Sprite doubleBounce = new FoldingCube();
         progressBar.setIndeterminateDrawable(doubleBounce);
 
-        EmailET = (EditText) findViewById(R.id.signup_email);
-        PasswordET = (EditText) findViewById(R.id.signup_password);
-        RePasswordET = (EditText) findViewById(R.id.signup_confirm_password);
-        SignupButton = (Button) findViewById(R.id.signupButton);
+        EmailET = findViewById(R.id.signup_email);
+        PasswordET = findViewById(R.id.signup_password);
+        RePasswordET = findViewById(R.id.signup_confirm_password);
+        SignupButton = findViewById(R.id.signupButton);
 
         mAuth = FirebaseAuth.getInstance();
 

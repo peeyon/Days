@@ -1,8 +1,10 @@
-package project.days;
+package project.days.Activity;
+
+import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
+import project.days.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
