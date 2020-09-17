@@ -8,6 +8,9 @@ import android.widget.EditText;
 public class DiaryContentActivity extends AppCompatActivity {
 
     private EditText Diaryheading;
+    private FirebaseAuth mAuth;
+    private DatabaseReference postRef;
+    String currentUserID,diary_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

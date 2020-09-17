@@ -49,6 +49,7 @@ public class DiaryViewActivity extends AppCompatActivity {
     FirebaseRecyclerOptions<Diaries> options;
     FirebaseRecyclerAdapter<Diaries, DiariesViewHolder> adapter;
     public String tt = null;
+    String post_key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class DiaryViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_diary_view);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
-
+        gridLayoutManager.setReverseLayout(true);
 
 
         type =  getIntent().getStringExtra("type");
@@ -123,23 +124,48 @@ public class DiaryViewActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull DiariesViewHolder holder, int position, @NonNull Diaries model) {
                 holder.txt.setText(model.getDiary_name());
+               // position += 1;
+                post_key = getRef(position).getKey();
             }
 
             @NonNull
             @Override
             public DiariesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.diary_view_layout,parent,false);
+                final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.diary_view_layout,parent,false);
+                usersReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!snapshot.child(tt).hasChild(post_key))
+                        {
+                            view.setVisibility(View.GONE);
+                            AlertText.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            AlertText.setVisibility(View.GONE);
+                            view.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent dIntent = new Intent(DiaryViewActivity.this, DiaryContentActivity.class);
+                        dIntent.putExtra("diary_id",post_key);
                         startActivity(dIntent);
                     }
                 });
                 return new DiariesViewHolder(view);
             }
         };
+        recyclerLayout.setLayoutManager(gridLayoutManager);
         recyclerLayout.setAdapter(adapter);
         adapter.startListening();
 
