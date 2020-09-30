@@ -15,24 +15,24 @@
         <activity android:name=".DiaryContentActivity"></activity>
         <activity
             android:name=".DiaryViewActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".Activity.MainActivity" />
         <activity
-            android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".ProfileSelectActivity" />
-        <activity android:name=".PersonalDetailsActivity" />
+            android:name=".Activity.SettingsActivity"
+            android:parentActivityName=".Activity.MainActivity" />
+        <activity android:name=".Activity.ProfileSelectActivity" />
+        <activity android:name=".Activity.PersonalDetailsActivity" />
         <activity
-            android:name=".SignupActivity"
-            android:parentActivityName=".LoginActivity" />
+            android:name=".Activity.SignupActivity"
+            android:parentActivityName=".Activity.LoginActivity" />
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" /> <!-- optional (needed if default theme has no action bar) -->
-        <activity android:name=".LoginActivity">
+        <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".Activity.MainActivity" />
     </application>
 
 </manifest>

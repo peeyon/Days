@@ -1,14 +1,7 @@
-package project.days;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
+package project.days.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.Image;
-
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +10,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,16 +28,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageActivity;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
-
-import java.net.URI;
-import java.net.URL;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import project.days.R;
 
 public class ProfileSelectActivity extends AppCompatActivity {
 
@@ -59,11 +52,11 @@ public class ProfileSelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_select);
-        imageView = (CircleImageView) findViewById(R.id.profile_image_select);
+        imageView = findViewById(R.id.profile_image_select);
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.pr_img));
-        resText = (TextView) findViewById(R.id.txtt1);
-        tickImage = (ImageView) findViewById(R.id.tick_icon);
-        goodtogoButton = (Button) findViewById(R.id.good_to_go_button);
+        resText = findViewById(R.id.txtt1);
+        tickImage = findViewById(R.id.tick_icon);
+        goodtogoButton = findViewById(R.id.good_to_go_button);
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
         usersRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserID);

@@ -1,8 +1,5 @@
-package project.days;
+package project.days.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
@@ -18,11 +15,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Wave;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
@@ -38,6 +38,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import project.days.R;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -58,16 +60,22 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
-        EmailET = (EditText) findViewById(R.id.email_et);
-        PasswordET = (EditText) findViewById(R.id.password_et);
-        LoginButton = (Button) findViewById(R.id.login_button);
-        tvLogin = (TextView) findViewById(R.id.tvLogin);
-        ForgotLink = (TextView) findViewById(R.id.tvForgot);
-        signupLink = (ImageButton) findViewById(R.id.btRegister);
-        googlesignin = (ImageView) findViewById(R.id.gsignin);
-        final ProgressBar progressBar = (ProgressBar)findViewById(R.id.spin_kit);
+        EmailET = findViewById(R.id.email_et);
+        PasswordET = findViewById(R.id.password_et);
+        LoginButton = findViewById(R.id.login_button);
+        tvLogin = findViewById(R.id.tvLogin);
+        ForgotLink = findViewById(R.id.tvForgot);
+        signupLink = findViewById(R.id.btRegister);
+        googlesignin = findViewById(R.id.gsignin);
+        final ProgressBar progressBar = findViewById(R.id.spin_kit);
         Sprite doubleBounce = new Wave();
         progressBar.setIndeterminateDrawable(doubleBounce);
+
+        if(mAuth.getCurrentUser() != null)
+        {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+        }
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -81,7 +89,6 @@ public class LoginActivity extends AppCompatActivity {
                 GoogleSignIn();
             }
         });
-
         LoginButton.setOnClickListener(new View.OnClickListener()
         {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -102,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                                         LoginButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.green));
                                         progressBar.setVisibility(View.VISIBLE);
 
-                                   //     Toast.makeText(LoginActivity.this, "Authenticated successfully", Toast.LENGTH_SHORT).show();
+                                        //     Toast.makeText(LoginActivity.this, "Authenticated successfully", Toast.LENGTH_SHORT).show();
                                         usersRef = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid());
                                         usersRef.addValueEventListener(new ValueEventListener() {
                                             @Override
@@ -115,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 }
                                                 else
                                                 {
-                                                    Intent mainIntent = new Intent(LoginActivity.this,PersonalDetailsActivity.class);
+                                                    Intent mainIntent = new Intent(LoginActivity.this, PersonalDetailsActivity.class);
                                                     mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                     startActivity(mainIntent);
                                                 }
@@ -134,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                                       /*  progressBar.setVisibility(View.GONE);
                                         LoginButton.setBackgroundTintList(null);*/
 
-                                        String message = task.getException().getMessage().toString();
+                                        String message = task.getException().getMessage();
                                         Toast.makeText(LoginActivity.this, "Error occured. "+message, Toast.LENGTH_SHORT).show();
                                     }
 
@@ -147,6 +154,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         ForgotLink.setOnClickListener(new View.OnClickListener()
         {
@@ -168,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                             else
                             {
-                                String message = task.getException().getMessage().toString();
+                                String message = task.getException().getMessage();
                                 Toast.makeText(LoginActivity.this, "Error occured. "+message, Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -205,7 +213,7 @@ public class LoginActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Toast.makeText(this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 // ...
             }
         }
