@@ -15,24 +15,25 @@
         android:padding="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"/>
+
     <EditText
         android:id="@+id/content_diary_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="-24dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="6dp"
+        android:layout_toRightOf="@id/content_view_back_icon"
         android:background="@android:color/transparent"
         android:backgroundTint="@android:color/white"
         android:editable="false"
-        android:text="diary_name"
-        android:layout_toRightOf="@id/content_view_back_icon"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:textSize="30sp"
         android:padding="5dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="10dp"/>
+        android:text="diary_name"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
-        <androidx.cardview.widget.CardView
+    <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardCornerRadius="40dp"
@@ -78,12 +79,56 @@
         android:layout_height="400dp"
         android:layout_centerInParent="true">
 
-        <RelativeLayout
+        <EditText
+            android:id="@+id/diary_content_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:inputType="textLongMessage" />
+    </androidx.cardview.widget.CardView>
+
+
+    <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
         </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
+
+
+    <Button
+        android:id="@+id/content_add_photos"
+        android:layout_width="179dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="43dp"
+        android:layout_marginRight="43dp"
+        android:layout_marginBottom="79dp"
+        android:layout_toStartOf="@+id/diary_content_text"
+        android:layout_toLeftOf="@+id/diary_content_text"
+        android:background="@drawable/bg_ui"
+        android:text="Photos"
+        android:textAllCaps="true"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        tools:ignore="ExtraText,NotSibling" />
+
+    <Button
+        android:id="@+id/content_add_videos"
+        android:layout_width="173dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="79dp"
+        android:background="@drawable/bg_ui"
+        android:text="Videos"
+        android:textAllCaps="true"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp" />
+</RelativeLayout>
+
 
 </RelativeLayout>
