@@ -50,10 +50,16 @@ public class DiaryContentActivity extends AppCompatActivity {
                                                     mDiaryContent.setError("Enter the content.");
                                                     return;
                                                 }
+                                                if(diarycontent.length()<1000000000){
+                                                    mDiaryContent.setError("Content is exceded");
+                                                }
                                             }
                                         }
         );
 
+        {
+
+        }
 
 
     }

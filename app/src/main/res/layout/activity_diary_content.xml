@@ -85,7 +85,9 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:inputType="textLongMessage" />
+            android:inputType="textLongMessage"
+            android:hint="Enter here"
+            />
     </androidx.cardview.widget.CardView>
 
 
@@ -127,7 +129,8 @@
         android:text="Videos"
         android:textAllCaps="true"
         android:textColor="@color/colorWhite"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        />
 </RelativeLayout>
 
 
