@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -52,9 +53,11 @@ public class DiaryContentActivity extends AppCompatActivity {
                                                 }
                                                 if(diarycontent.length()<1000000000){
                                                     mDiaryContent.setError("Content is exceded");
+
                                                 }
                                             }
                                         }
+
         );
 
         {

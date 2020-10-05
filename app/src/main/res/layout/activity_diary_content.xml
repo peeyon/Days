@@ -87,6 +87,8 @@
             android:layout_marginRight="10dp"
             android:inputType="textLongMessage"
             android:hint="Enter here"
+            android:hintColor="@color/colorBlack"
+
             />
     </androidx.cardview.widget.CardView>
 
