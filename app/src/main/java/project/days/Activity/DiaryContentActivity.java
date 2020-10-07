@@ -9,7 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -41,7 +41,7 @@ public class DiaryContentActivity extends AppCompatActivity {
     private Uri filePath;
     private FirebaseStorage storage;
     private StorageReference storageReference;
-    private ImageView imageView;
+
 
     public DiaryContentActivity() {
     }
@@ -58,9 +58,9 @@ public class DiaryContentActivity extends AppCompatActivity {
         mContentEdit     = findViewById(R.id.content_edit_icon);
         mContentDelete   = findViewById(R.id.content_delete_icon);
         mDiaryContent    = findViewById(R.id.diary_content_text);
-        mContentAddPhotos = findViewById(R.id.content_add_photos);
-        mContentAddVideos = findViewById(R.id.content_add_videos);
-        imageView = (ImageView)findViewById(R.id.myImage);
+        mContentAddPhotos= findViewById(R.id.content_add_photos);
+        mContentAddVideos= findViewById(R.id.content_add_videos);
+
 
         fAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -76,69 +76,137 @@ public class DiaryContentActivity extends AppCompatActivity {
                                                     return;
                                                 }
                                                 if(diarycontent.length()<1000000000){
-                                                    mDiaryContent.setError("Content is exceeded");
+                                                    mDiaryContent.setError("Content is exceded");
 
                                                 }
                                             }
                                         }
 
         );
-        mContentAddPhotos.setOnClickListener(new View.OnClickListener() {
+        mContentAddPhotos.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                chooseImage();
-                uploadImage();
-        }
-        });
-    }
-
-    private void chooseImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Image"),1);
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 && resultCode == RESULT_OK && data!= null && data.getData()!=null)
-        {
-            filePath = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
-            }
-            catch (IOException e)
+            public void OnClick(View v)
             {
-                e.printStackTrace();
+                chooseImage();
+                UploadImage();
+            }
+        });
+        @override
+        protected void chooseImage()
+        {
+            Intent.intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, title:"Select image"),requestcode:1));
+
+        }
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+        {
+            super.onActivityResult(requestCode, resultCode, data);
+            if(requestCode == 1 && resultCode == RESULT_OK && data!= null && data.getData()!=null)
+
+            {
+                filePath = data.getData();
+                try {
+                    Image image =new Image();
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath)
+                    image.View.setImageBitmap(bitmap);
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+
+                }
+
+            }
+
+        }
+        @override
+        private void uploadImage()
+        {
+            if(filePath!=null)
+            { final ProgressDialog progressDialog = new ProgressDialog(content: DiaryContentActivity.this);
+                progressDialog.setTitle("Uploading");
+                progressDialog.show();
+                StorageReference reference = storageReference.child("images/" + UUID.randomUUID().toString());
+                reference.putFile((filePath)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+                    {
+                        progressDialog.dismiss();
+                        Toast.makeText(DiaryContentActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                        double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
+                        progressDialog.setMessage("Uploaded"+(int)progress+"%" );
+
+                    }
+                });
+                mContentAddVideos.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void OnClick(View v)
+                    {
+                        chooseVideo();
+                        UploadVideo();
+                    }
+                });
+                @override
+                protected void chooseVideo()
+                {
+                    Intent.intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, title:"Select image"),requestcode:1));
+
+                }
+                @Override
+                protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+                {
+                    super.onActivityResult(requestCode, resultCode, data);
+                    if(requestCode == 1 && resultCode == RESULT_OK && data!= null && data.getData()!=null)
+
+                    {
+                        filePath = data.getData();
+                        try {
+                            Video video =new Video();
+                            Bitmap bitmap = MediaStore.Video.Media.getBitmap(getContentResolver(), filePath)
+                            video.View.setImageBitmap(bitmap);
+                        } catch (IOException e)
+                        {
+                            e.printStackTrace();
+
+                        }
+
+                    }
+
+                }
+                @override
+                private void UploadVideo()
+                {
+                    if(filePath!=null)
+                    { final ProgressDialog progressDialog = new ProgressDialog(content: DiaryContentActivity.this);
+                        progressDialog.setTitle("Uploading");
+                        progressDialog.show();
+                        StorageReference reference = storageReference.child("images/" + UUID.randomUUID().toString());
+                        reference.putFile((filePath)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+                            {
+                                progressDialog.dismiss();
+                                Toast.makeText(DiaryContentActivity.this, "Video uploaded", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                                double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
+                                progressDialog.setMessage("Uploaded"+(int)progress+"%" );
             }
         }
-
-    }
-    private void uploadImage()
-    {
-        if(filePath!=null)
-        { final ProgressDialog progressDialog = new ProgressDialog(DiaryContentActivity.this);
-            progressDialog.setTitle("Uploading");
-            progressDialog.show();
-            StorageReference reference = storageReference.child("images/" + UUID.randomUUID().toString());
-            reference.putFile((filePath)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-                {
-                    progressDialog.dismiss();
-                    Toast.makeText(DiaryContentActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                    double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
-                    progressDialog.setMessage("Uploaded"+(int)progress+"%" );
 
-                }
-            });
 
-        }
     }
 }
