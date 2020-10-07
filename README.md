@@ -1,3 +1,7 @@
 # Days
 This project is currently under development.
-This is Naresh Kumar
+This is TechieNk
+This is Techipeeyon
+This is Xavier-Alfred
+This is Sanjan
+This is Jayanth Vikash
