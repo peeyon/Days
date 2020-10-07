@@ -28,6 +28,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.util.UUID;
 
+
 public class DiaryContentActivity extends AppCompatActivity {
     private EditText mDiaryContent;
     private Button mContentViewBack;
@@ -89,7 +90,8 @@ public class DiaryContentActivity extends AppCompatActivity {
                 UploadImage();
             }
         });
-        private void chooseImage()
+        @override
+        protected void chooseImage()
         {
             Intent.intent = new Intent();
             intent.setType("image/*");
@@ -118,11 +120,11 @@ public class DiaryContentActivity extends AppCompatActivity {
             }
 
         }
-
+        @override
         private void uploadImage()
         {
             if(filePath!=null)
-            { final ProgressDialog progressDialog = new ProgressDialog(content: this)
+            { final ProgressDialog progressDialog = new ProgressDialog(content: DiaryContentActivity.this);
                 progressDialog.setTitle("Uploading");
                 progressDialog.show();
                 StorageReference reference = storageReference.child("images/" + UUID.randomUUID().toString());
@@ -131,7 +133,7 @@ public class DiaryContentActivity extends AppCompatActivity {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
                     {
                         progressDialog.dismiss();
-                        Toast.makeText(content: DiaryContentActivity.this, text: "Image Uploaded", );
+                        Toast.makeText(DiaryContentActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                     @Override
