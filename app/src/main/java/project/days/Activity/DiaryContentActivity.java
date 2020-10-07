@@ -158,7 +158,7 @@ public class DiaryContentActivity extends AppCompatActivity {
                     Intent.intent = new Intent();
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(Intent.createChooser(intent, title:"Select image"),requestcode:1));
+                    startActivityForResult(Intent.createChooser(intent, title:"Select videos"),requestcode:1));
 
                 }
                 @Override
