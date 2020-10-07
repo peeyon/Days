@@ -88,7 +88,6 @@
             android:inputType="textLongMessage"
             android:hint="Enter here"
 
-
             />
     </androidx.cardview.widget.CardView>
 

@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -108,12 +109,12 @@ public class DiaryContentActivity extends AppCompatActivity {
             {
                 filePath = data.getData();
                 try {
-
+                    Image image =new Image();
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath)
                     image.View.setImageBitmap(bitmap);
                 } catch (IOException e)
                 {
-                    e,printStackTrace();
+                    e.printStackTrace();
 
                 }
 
