@@ -128,13 +128,13 @@ public class DiaryContentActivity extends AppCompatActivity {
             { final ProgressDialog progressDialog = new ProgressDialog(content: DiaryContentActivity.this);
                 progressDialog.setTitle("Uploading");
                 progressDialog.show();
-                StorageReference reference = storageReference.child("images/" + UUID.randomUUID().toString());
+                StorageReference reference = storageReference.child("video/" + UUID.randomUUID().toString());
                 reference.putFile((filePath)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
                     {
                         progressDialog.dismiss();
-                        Toast.makeText(DiaryContentActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DiaryContentActivity.this, "Video uploaded", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -189,7 +189,7 @@ public class DiaryContentActivity extends AppCompatActivity {
                     { final ProgressDialog progressDialog = new ProgressDialog(content: DiaryContentActivity.this);
                         progressDialog.setTitle("Uploading");
                         progressDialog.show();
-                        StorageReference reference = storageReference.child("images/" + UUID.randomUUID().toString());
+                        StorageReference reference = storageReference.child("video/" + UUID.randomUUID().toString());
                         reference.putFile((filePath)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
