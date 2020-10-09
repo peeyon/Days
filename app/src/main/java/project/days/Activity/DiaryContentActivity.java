@@ -10,6 +10,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -77,13 +78,11 @@ public class DiaryContentActivity extends AppCompatActivity {
                                                 }
                                                 if(diarycontent.length()<1000000000){
                                                     mDiaryContent.setError("Content is exceded");
-
                                                 }
                                             }
                                         }
-
         );
-        mContentAddPhotos.setOnClickListener(new View.OnClickListener(){
+        mContentAddPhotos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void OnClick(View v)
             {
@@ -91,122 +90,94 @@ public class DiaryContentActivity extends AppCompatActivity {
                 UploadImage();
             }
         });
-        @override
-        protected void chooseImage()
-        {
-            Intent.intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, title:"Select image"),requestcode:1));
-
-        }
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
-        {
-            super.onActivityResult(requestCode, resultCode, data);
-            if(requestCode == 1 && resultCode == RESULT_OK && data!= null && data.getData()!=null)
-
+        mContentAddVideos.setOnClickListener(new View.OnClickListener){
+            @Override
+            public void OnClick(View v)
             {
-                filePath = data.getData();
-                try {
-                    Image image =new Image();
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath)
-                    image.View.setImageBitmap(bitmap);
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-
-                }
-
+                chooseVideo();
+                UploadVideo();
             }
+        });
+    }
 
-        }
-        @override
-        private void uploadImage()
+    protected void chooseImage()
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select image"),1);
+    }
+
+    protected void chooseVideo()
+    {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select videos"),1);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == RESULT_OK && data!= null && data.getData()!=null)
         {
-            if(filePath!=null)
-            { final ProgressDialog progressDialog = new ProgressDialog(content: DiaryContentActivity.this);
-                progressDialog.setTitle("Uploading");
-                progressDialog.show();
-                StorageReference reference = storageReference.child("video/" + UUID.randomUUID().toString());
-                reference.putFile((filePath)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-                    {
-                        progressDialog.dismiss();
-                        Toast.makeText(DiaryContentActivity.this, "Video uploaded", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                        double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
-                        progressDialog.setMessage("Uploaded"+(int)progress+"%" );
-
-                    }
-                });
-                mContentAddVideos.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void OnClick(View v)
-                    {
-                        chooseVideo();
-                        UploadVideo();
-                    }
-                });
-                @override
-                protected void chooseVideo()
-                {
-                    Intent.intent = new Intent();
-                    intent.setType("image/*");
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(Intent.createChooser(intent, title:"Select videos"),requestcode:1));
-
-                }
-                @Override
-                protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
-                {
-                    super.onActivityResult(requestCode, resultCode, data);
-                    if(requestCode == 1 && resultCode == RESULT_OK && data!= null && data.getData()!=null)
-
-                    {
-                        filePath = data.getData();
-                        try {
-                            Video video =new Video();
-                            Bitmap bitmap = MediaStore.Video.Media.getBitmap(getContentResolver(), filePath)
-                            video.View.setImageBitmap(bitmap);
-                        } catch (IOException e)
-                        {
-                            e.printStackTrace();
-
-                        }
-
-                    }
-
-                }
-                @override
-                private void UploadVideo()
-                {
-                    if(filePath!=null)
-                    { final ProgressDialog progressDialog = new ProgressDialog(content: DiaryContentActivity.this);
-                        progressDialog.setTitle("Uploading");
-                        progressDialog.show();
-                        StorageReference reference = storageReference.child("video/" + UUID.randomUUID().toString());
-                        reference.putFile((filePath)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
-                            {
-                                progressDialog.dismiss();
-                                Toast.makeText(DiaryContentActivity.this, "Video uploaded", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                                double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
-                                progressDialog.setMessage("Uploaded"+(int)progress+"%" );
+            filePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                /*imageView.setImageBitmap(bitmap);*/
+            } catch (IOException e)
+            {
+                e.printStackTrace();
             }
         }
-                    }
+    }
+
+    private void UploadImage()
+    {
+        if(filePath!=null)
+        { final ProgressDialog progressDialog = new ProgressDialog(DiaryContentActivity.this);
+            progressDialog.setTitle("Uploading");
+            progressDialog.show();
+            StorageReference reference = storageReference.child("video/" + UUID.randomUUID().toString());
+            reference.putFile((filePath)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+                {
+                    progressDialog.dismiss();
+                    Toast.makeText(DiaryContentActivity.this, "Video uploaded", Toast.LENGTH_SHORT).show();
                 }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
+                    progressDialog.setMessage("Uploaded"+(int)progress+"%" );
 
+                }
+            });
+        }
+    }
 
+    private void UploadVideo()
+    {
+        if(filePath!=null)
+        { final ProgressDialog progressDialog = new ProgressDialog(DiaryContentActivity.this);
+            progressDialog.setTitle("Uploading");
+            progressDialog.show();
+            StorageReference reference = storageReference.child("video/" + UUID.randomUUID().toString());
+            reference.putFile((filePath)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+                {
+                    progressDialog.dismiss();
+                    Toast.makeText(DiaryContentActivity.this, "Video uploaded", Toast.LENGTH_SHORT).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
+                    progressDialog.setMessage("Uploaded"+(int)progress+"%" );
+                }
+            });
+        }
     }
 }

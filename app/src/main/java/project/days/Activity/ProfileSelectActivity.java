@@ -81,9 +81,7 @@ public class ProfileSelectActivity extends AppCompatActivity {
                 choosePicture();
             }
         });
-
     }
-
     private void choosePicture() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -95,7 +93,6 @@ public class ProfileSelectActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode== 10 && resultCode==RESULT_OK && data!= null && data.getData()!=null)
         {
             imageUri = data.getData();
@@ -103,11 +100,8 @@ public class ProfileSelectActivity extends AppCompatActivity {
             resText.setVisibility(View.VISIBLE);
             tickImage.setVisibility(View.VISIBLE);
             goodtogoButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.green));
-
         }
-
     }
-
     private void uploadPicture() {
 
         mDialog.setTitle("Please wait");
@@ -143,13 +137,10 @@ public class ProfileSelectActivity extends AppCompatActivity {
                                                 String message = task.getException().getMessage();
                                                 Toast.makeText(ProfileSelectActivity.this, "Error occured. " + message, Toast.LENGTH_SHORT).show();
                                             }
-
                                         }
                                     });
                                 }
-
                             }
-
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
 

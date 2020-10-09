@@ -85,6 +85,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(diaryIntent);
             }
         });
-
     }
 }
