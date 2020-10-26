@@ -105,6 +105,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 email = EmailET.getText().toString();
                 password = PasswordET.getText().toString();
+                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password))
+                {
+                    Toast.makeText(LoginActivity.this, "Please fill all the credentials", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(!(TextUtils.isEmpty(email) && TextUtils.isEmpty(password)))
                 {
                     mAuth.signInWithEmailAndPassword(email,password)
@@ -163,10 +168,12 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                 }
+                /*
                 else
                 {
                     Toast.makeText(LoginActivity.this, "Please fill all the credentials", Toast.LENGTH_SHORT).show();
                 }
+                 */
             }
         });
 

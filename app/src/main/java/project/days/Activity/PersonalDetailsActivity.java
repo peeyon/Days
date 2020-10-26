@@ -144,6 +144,11 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                 }
                 name=NameET.getText().toString();
                 nickname=NickNameET.getText().toString();
+                if(TextUtils.isEmpty(name) || TextUtils.isEmpty(date) || TextUtils.isEmpty(gender))
+                {
+                    Toast.makeText(PersonalDetailsActivity.this,  "Please fill the details. ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(!(TextUtils.isEmpty(name)&&TextUtils.isEmpty(date)&&TextUtils.isEmpty(gender)))
                 {
 
@@ -176,11 +181,12 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                         }
                     });
                 }
-
+                /*
                 else
                 {
                     Toast.makeText(PersonalDetailsActivity.this,  "Please fill the mandatory fields. Only Nickname is optional", Toast.LENGTH_SHORT).show();
                 }
+                 */
             }
 
 
