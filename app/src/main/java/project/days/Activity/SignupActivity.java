@@ -22,9 +22,12 @@ import androidx.appcompat.widget.Toolbar;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.FoldingCube;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import project.days.R;
 
@@ -66,8 +69,7 @@ public class SignupActivity extends AppCompatActivity {
                 password = PasswordET.getText().toString();
                 re_password = RePasswordET.getText().toString();
 
-                if(!(TextUtils.isEmpty(email) && TextUtils.isEmpty(password)
-                        &&TextUtils.isEmpty(re_password) ))
+                if(!(TextUtils.isEmpty(email) && TextUtils.isEmpty(password) && TextUtils.isEmpty(re_password)))
                 {
                     if(password.equals(re_password))
                     {
@@ -80,8 +82,19 @@ public class SignupActivity extends AppCompatActivity {
                                         {
                                             SignupButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.green));
                                             progressBar.setVisibility(View.VISIBLE);
-                                            Toast.makeText(SignupActivity.this, "Great! You're one among us now", Toast.LENGTH_SHORT).show();
-                                            Intent mainIntent = new Intent(SignupActivity.this, PersonalDetailsActivity.class);
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>(){
+                                                @Override
+                                                public void onSuccess(Void aVoid){
+                                                    Toast.makeText(SignupActivity.this,"Verification Link Has Been Sent",Toast.LENGTH_SHORT).show();
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(SignupActivity.this, "Email not send. "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                            Intent mainIntent = new Intent(SignupActivity.this, Verifyemail.class);
                                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(mainIntent);
                                         }

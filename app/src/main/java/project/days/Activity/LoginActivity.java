@@ -73,14 +73,21 @@ public class LoginActivity extends AppCompatActivity {
 
         if(mAuth.getCurrentUser() != null)
         {
+            FirebaseUser user = mAuth.getCurrentUser();
+            if(!user.isEmailVerified())
+            {
+                Intent mainIntent = new Intent(LoginActivity.this, Verifyemail.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainIntent);
+            }
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         googlesignin.setOnClickListener(new View.OnClickListener() {
@@ -98,8 +105,6 @@ public class LoginActivity extends AppCompatActivity {
                 password = PasswordET.getText().toString();
                 if(!(TextUtils.isEmpty(email) && TextUtils.isEmpty(password)))
                 {
-
-
                     mAuth.signInWithEmailAndPassword(email,password)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -108,7 +113,13 @@ public class LoginActivity extends AppCompatActivity {
                                     {
                                         LoginButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.green));
                                         progressBar.setVisibility(View.VISIBLE);
-
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        if(!user.isEmailVerified())
+                                        {
+                                            Intent mainIntent = new Intent(LoginActivity.this, Verifyemail.class);
+                                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(mainIntent);
+                                        }
                                         //     Toast.makeText(LoginActivity.this, "Authenticated successfully", Toast.LENGTH_SHORT).show();
                                         usersRef = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid());
                                         usersRef.addValueEventListener(new ValueEventListener() {

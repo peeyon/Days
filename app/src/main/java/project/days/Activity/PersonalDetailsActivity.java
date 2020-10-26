@@ -170,7 +170,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
                             else
                             {
                                 String message = task.getException().getMessage();
-                                Toast.makeText(PersonalDetailsActivity.this, "Error occured. "+message, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PersonalDetailsActivity.this, "Error occurred. "+message, Toast.LENGTH_SHORT).show();
                                 return;
                             }
                         }
