@@ -68,7 +68,11 @@ public class SignupActivity extends AppCompatActivity {
                 email = EmailET.getText().toString();
                 password = PasswordET.getText().toString();
                 re_password = RePasswordET.getText().toString();
-
+                if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(re_password))
+                {
+                    Toast.makeText(SignupActivity.this,"All the fields are mandatory",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(!(TextUtils.isEmpty(email) && TextUtils.isEmpty(password) && TextUtils.isEmpty(re_password)))
                 {
                     if(password.equals(re_password))
@@ -82,6 +86,7 @@ public class SignupActivity extends AppCompatActivity {
                                         {
                                             SignupButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.green));
                                             progressBar.setVisibility(View.VISIBLE);
+                                           /*
                                             FirebaseUser user = mAuth.getCurrentUser();
                                             user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>(){
                                                 @Override
@@ -97,11 +102,16 @@ public class SignupActivity extends AppCompatActivity {
                                             Intent mainIntent = new Intent(SignupActivity.this, Verifyemail.class);
                                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(mainIntent);
+                                            */
+                                            Toast.makeText(SignupActivity.this, "Great! You're one among us now", Toast.LENGTH_SHORT).show();
+                                            Intent mainIntent = new Intent(SignupActivity.this, PersonalDetailsActivity.class);
+                                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(mainIntent);
                                         }
                                         else
                                         {
                                             String message = task.getException().getMessage();
-                                            Toast.makeText(SignupActivity.this, "Error occured. "+message, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(SignupActivity.this, "Error occurred. "+message, Toast.LENGTH_SHORT).show();
                                         }
 
                                     }
@@ -112,11 +122,12 @@ public class SignupActivity extends AppCompatActivity {
                         Toast.makeText(SignupActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                     }
                 }
+                /*
                 else
                 {
                     Toast.makeText(SignupActivity.this, "All the fields are mandatory", Toast.LENGTH_SHORT).show();
                 }
-
+                */
             }
         });
 

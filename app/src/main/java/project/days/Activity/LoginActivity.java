@@ -73,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(mAuth.getCurrentUser() != null)
         {
+            /*
             FirebaseUser user = mAuth.getCurrentUser();
             if(!user.isEmailVerified())
             {
@@ -80,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                 mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(mainIntent);
             }
+            */
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
@@ -113,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                                     {
                                         LoginButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.green));
                                         progressBar.setVisibility(View.VISIBLE);
+                                        /*
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         if(!user.isEmailVerified())
                                         {
@@ -120,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(mainIntent);
                                         }
+                                        */
                                         //     Toast.makeText(LoginActivity.this, "Authenticated successfully", Toast.LENGTH_SHORT).show();
                                         usersRef = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid());
                                         usersRef.addValueEventListener(new ValueEventListener() {
