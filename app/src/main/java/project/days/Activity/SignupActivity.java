@@ -86,7 +86,7 @@ public class SignupActivity extends AppCompatActivity {
                                         {
                                             SignupButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.green));
                                             progressBar.setVisibility(View.VISIBLE);
-                                           /*
+
                                             FirebaseUser user = mAuth.getCurrentUser();
                                             user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>(){
                                                 @Override
@@ -99,14 +99,16 @@ public class SignupActivity extends AppCompatActivity {
                                                     Toast.makeText(SignupActivity.this, "Email not send. "+e.getMessage(), Toast.LENGTH_SHORT).show();
                                                 }
                                             });
+                                            Intent mainIntent = new Intent(SignupActivity.this, verifyemail.class);
+                                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(mainIntent);
+
+                                            /*Toast.makeText(SignupActivity.this, "Great! You're one among us now", Toast.LENGTH_SHORT).show();
                                             Intent mainIntent = new Intent(SignupActivity.this, Verifyemail.class);
                                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(mainIntent);
-                                            */
-                                            Toast.makeText(SignupActivity.this, "Great! You're one among us now", Toast.LENGTH_SHORT).show();
-                                            Intent mainIntent = new Intent(SignupActivity.this, PersonalDetailsActivity.class);
-                                            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            startActivity(mainIntent);
+
+                                             */
                                         }
                                         else
                                         {

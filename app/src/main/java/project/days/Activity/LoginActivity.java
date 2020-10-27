@@ -73,15 +73,6 @@ public class LoginActivity extends AppCompatActivity {
 
         if(mAuth.getCurrentUser() != null)
         {
-            /*
-            FirebaseUser user = mAuth.getCurrentUser();
-            if(!user.isEmailVerified())
-            {
-                Intent mainIntent = new Intent(LoginActivity.this, Verifyemail.class);
-                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(mainIntent);
-            }
-            */
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
@@ -120,40 +111,38 @@ public class LoginActivity extends AppCompatActivity {
                                     {
                                         LoginButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.green));
                                         progressBar.setVisibility(View.VISIBLE);
-                                        /*
+
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         if(!user.isEmailVerified())
                                         {
-                                            Intent mainIntent = new Intent(LoginActivity.this, Verifyemail.class);
+                                            Intent mainIntent = new Intent(LoginActivity.this, verifyemail.class);
                                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(mainIntent);
                                         }
-                                        */
-                                        //     Toast.makeText(LoginActivity.this, "Authenticated successfully", Toast.LENGTH_SHORT).show();
-                                        usersRef = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid());
-                                        usersRef.addValueEventListener(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                if(snapshot.exists())
-                                                {
-                                                    Intent mainIntent = new Intent(LoginActivity.this,MainActivity.class);
-                                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                    startActivity(mainIntent);
+                                        else {
+                                            Toast.makeText(LoginActivity.this, "Authenticated successfully", Toast.LENGTH_SHORT).show();
+                                            usersRef = FirebaseDatabase.getInstance().getReference("Users").child(mAuth.getCurrentUser().getUid());
+                                            usersRef.addValueEventListener(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    if (snapshot.exists()) {
+                                                        Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        startActivity(mainIntent);
+                                                    } else {
+                                                        Intent mainIntent = new Intent(LoginActivity.this, PersonalDetailsActivity.class);
+                                                        mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        startActivity(mainIntent);
+                                                    }
+
                                                 }
-                                                else
-                                                {
-                                                    Intent mainIntent = new Intent(LoginActivity.this, PersonalDetailsActivity.class);
-                                                    mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                    startActivity(mainIntent);
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+
                                                 }
-
-                                            }
-
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-
-                                            }
-                                        });
+                                            });
+                                        }
 
                                     }
                                     else
@@ -173,7 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                 {
                     Toast.makeText(LoginActivity.this, "Please fill all the credentials", Toast.LENGTH_SHORT).show();
                 }
-                 */
+                */
             }
         });
 

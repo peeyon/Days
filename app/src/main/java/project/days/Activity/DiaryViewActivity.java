@@ -33,7 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
-import project.days.DiaryContentActivity;
+//import project.days.DiaryContentActivity;
 import project.days.Models.Diaries;
 import project.days.R;
 import project.days.ViewHolders.DiariesViewHolder;
