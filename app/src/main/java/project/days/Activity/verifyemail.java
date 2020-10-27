@@ -53,6 +53,7 @@ public class verifyemail extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid){
                             Toast.makeText(verifyemail.this,"Verification Link Has Been Sent",Toast.LENGTH_SHORT).show();
+                            verifybutton.setText("Proceed");
                             return;
                         }
                     }).addOnFailureListener(new OnFailureListener() {
