@@ -37,14 +37,7 @@ public class verifyemail extends AppCompatActivity {
         verifybutton = findViewById(R.id.verify_button);
         verifymsg =  findViewById(R.id.verify_msg);
         final FirebaseUser user = mAuth.getCurrentUser();
-        if(user.isEmailVerified())
-        {
-            Toast.makeText(verifyemail.this, "Great! You're one among us now", Toast.LENGTH_SHORT).show();
-            Intent mainIntent = new Intent(verifyemail.this, PersonalDetailsActivity.class);
-            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(mainIntent);
-        }
-        else
+        if(!user.isEmailVerified())
         {
             verifybutton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -54,7 +47,6 @@ public class verifyemail extends AppCompatActivity {
                         public void onSuccess(Void aVoid){
                             Toast.makeText(verifyemail.this,"Verification Link Has Been Sent",Toast.LENGTH_SHORT).show();
                             verifybutton.setText("Proceed");
-                            return;
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @SuppressLint("SetTextI18n")
@@ -63,11 +55,15 @@ public class verifyemail extends AppCompatActivity {
                             Toast.makeText(verifyemail.this, "Email not sent. "+e.getMessage(), Toast.LENGTH_SHORT).show();
                             verifybutton.setText("Resend");
                             verifymsg.setText("Click Resend button to sent the verification link again");
-                            return;
                         }
                     });
                 }
             });
+        }
+        else
+        {
+                Toast.makeText(verifyemail.this, "Great! You're one among us now", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(),PersonalDetailsActivity.class));
         }
     }
 }
