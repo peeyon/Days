@@ -1,9 +1,11 @@
 package project.days.Activity;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +18,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,7 @@ import project.days.Models.Diaries;
 import project.days.R;
 import project.days.ViewHolders.DiariesViewHolder;
 
+
 public class DiaryViewActivity extends AppCompatActivity {
 
     private TextView AlertText;
@@ -53,11 +55,11 @@ public class DiaryViewActivity extends AppCompatActivity {
     public String tt = null;
     String post_key;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_view);
-
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
         gridLayoutManager.setReverseLayout(true);
 
@@ -126,7 +128,7 @@ public class DiaryViewActivity extends AppCompatActivity {
             @Override
             protected void onBindViewHolder(@NonNull DiariesViewHolder holder, int position, @NonNull Diaries model) {
                 holder.txt.setText(model.getDiary_name());
-               // position += 1;
+                // position += 1;
                 post_key = getRef(position).getKey();
             }
 

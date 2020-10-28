@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.DiaryViewActivity"
-    android:background="@drawable/header_login"
-    >
+    android:background="@drawable/header_login">
+
     <ImageView
         android:id="@+id/bck_arrow_icon_dmain"
         android:layout_width="50dp"
@@ -61,12 +61,12 @@
             <ScrollView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/grid_dmain"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/grid_dmain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    />
             </ScrollView>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
@@ -100,4 +100,5 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         />
+
 </RelativeLayout>
