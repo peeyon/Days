@@ -25,7 +25,9 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(SettingsActivity.this, "Successfully logged out!", Toast.LENGTH_SHORT).show();
+                finish();
                 startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+
             }
         });
     }
