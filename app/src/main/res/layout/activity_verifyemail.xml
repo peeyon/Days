@@ -14,7 +14,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/bgHeader"
-            android:layout_width="392dp"
+            android:layout_width="match_parent"
             android:layout_height="227dp"
             android:background="@drawable/header_login"
             android:elevation="5dp" />
