@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -50,6 +51,8 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         OtherT = findViewById(R.id.other_select);
         DateT = findViewById(R.id.pd_dob);
 
+
+        Toast.makeText(PersonalDetailsActivity.this, "Great you're one among us now!", Toast.LENGTH_SHORT).show();
         DateT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -24,7 +24,7 @@ import android.os.Bundle;
 public class verifyemail extends AppCompatActivity {
 
 
-    private Button verifybutton;
+    private Button resendbtn,verifybtn;
     private TextView verifymsg;
     private FirebaseAuth mAuth;
 
@@ -34,37 +34,37 @@ public class verifyemail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verifyemail);
         mAuth = FirebaseAuth.getInstance();
-        verifybutton = findViewById(R.id.verify_button);
+        verifybtn = findViewById(R.id.verify_button);
+        resendbtn = findViewById(R.id.resend_button);
         verifymsg =  findViewById(R.id.verify_msg);
-        final FirebaseUser user = mAuth.getCurrentUser();
-        if(!user.isEmailVerified())
-        {
-            verifybutton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>(){
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        resendbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onSuccess(Void aVoid){
-                            Toast.makeText(verifyemail.this,"Verification Link Has Been Sent",Toast.LENGTH_SHORT).show();
-                            verifybutton.setText("Proceed");
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(verifyemail.this, "Verification Link Has Been Sent", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @SuppressLint("SetTextI18n")
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(verifyemail.this, "Email not sent. "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                            verifybutton.setText("Resend");
-                            verifymsg.setText("Click Resend button to sent the verification link again");
+                            Toast.makeText(verifyemail.this, "Could not send Verification link. " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-                }
-            });
-        }
-        else
-        {
-                Toast.makeText(verifyemail.this, "Great! You're one among us now", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(),PersonalDetailsActivity.class));
-        }
+            }
+        });
+        verifybtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(verifyemail.this, LoginActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(mainIntent);
+            }
+        });
     }
 }
 

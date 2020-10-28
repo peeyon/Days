@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         Sprite doubleBounce = new Wave();
         progressBar.setIndeterminateDrawable(doubleBounce);
 
-        if(mAuth.getCurrentUser() != null)
+        if(mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified())
         {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
@@ -188,7 +188,7 @@ public class LoginActivity extends AppCompatActivity {
                             else
                             {
                                 String message = task.getException().getMessage();
-                                Toast.makeText(LoginActivity.this, "Error occured. "+message, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Error occurred. "+message, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

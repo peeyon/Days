@@ -1,9 +1,11 @@
 package project.days.Activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -73,6 +75,11 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(SignupActivity.this,"All the fields are mandatory",Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
+                {
+                    Toast.makeText(SignupActivity.this,"Invalid Email Address",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(!(TextUtils.isEmpty(email) && TextUtils.isEmpty(password) && TextUtils.isEmpty(re_password)))
                 {
                     if(password.equals(re_password))
@@ -86,7 +93,19 @@ public class SignupActivity extends AppCompatActivity {
                                         {
                                             SignupButton.setBackgroundTintList(getApplicationContext().getResources().getColorStateList(R.color.green));
                                             progressBar.setVisibility(View.VISIBLE);
-                                            Toast.makeText(SignupActivity.this, "Verify your email now!", Toast.LENGTH_SHORT).show();
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(SignupActivity.this, "Verification Link Has Been Sent", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @SuppressLint("SetTextI18n")
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(SignupActivity.this, "Could not send Verification link. " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
                                             Intent mainIntent = new Intent(SignupActivity.this, verifyemail.class);
                                             mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(mainIntent);
