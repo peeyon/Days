@@ -23,7 +23,7 @@
         android:layout_marginLeft="24dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="6dp"
-        android:editable="false"
+        android:enabled="false"
         android:layout_toRightOf="@id/content_view_back_icon"
         android:background="@android:color/transparent"
         android:backgroundTint="@android:color/white"

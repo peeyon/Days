@@ -9,12 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import project.days.R;
@@ -63,6 +67,40 @@ protected void onCreate(Bundle savedInstanceState) {
         @Override
         public void onCancelled(@NonNull DatabaseError error) {
 
+        }
+    });
+
+    EditButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            DiaryNameTV.setEnabled(true);
+            DiaryNameTV.requestFocus();
+        }
+    });
+
+    DiaryNameTV.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (!hasFocus)
+            {
+                HashMap hashMap = new HashMap();
+                hashMap.put("name",DiaryNameTV.getText().toString());
+                diariesRef.child(diary_id).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if (task.isSuccessful())
+                        {
+                            Toast.makeText(DiaryContentActivity.this, "Renamed successfully", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            String msg = task.getException().getMessage();
+                            Toast.makeText(DiaryContentActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+            }
         }
     });
 
