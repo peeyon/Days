@@ -3,7 +3,9 @@ package project.days.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,12 +28,13 @@ import project.days.R;
 
 public class DiaryContentActivity extends AppCompatActivity {
 
-    EditText DiaryNameTV;
+    EditText DiaryNameTV, DiaryContentET;
     CircleImageView EditButton, DeleteButton;
     ImageView BackButton;
     FirebaseAuth mAuth;
     DatabaseReference diariesRef, usersRef;
     String currentUserID, type, diary_id;
+    Button SaveButton;
 
 @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,8 @@ protected void onCreate(Bundle savedInstanceState) {
     EditButton = (CircleImageView) findViewById(R.id.content_edit_icon);
     BackButton = (ImageView) findViewById(R.id.content_view_back_icon);
     DeleteButton = (CircleImageView) findViewById(R.id.content_delete_icon);
+    DiaryContentET = (EditText) findViewById(R.id.diary_content_text);
+    SaveButton = (Button) findViewById(R.id.save_changes_button);
 
     diariesRef.child(diary_id).addValueEventListener(new ValueEventListener() {
         @Override
@@ -125,6 +130,27 @@ protected void onCreate(Bundle savedInstanceState) {
 
                 }
             });
+        }
+    });
+
+    SaveButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            HashMap hashMap = new HashMap();
+            hashMap.put("name",DiaryNameTV.getText().toString());
+            hashMap.put("content",DiaryContentET.getText().toString());
+            diariesRef.child(diary_id).updateChildren(hashMap)
+                    .addOnCompleteListener(new OnCompleteListener() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                            if (task.isSuccessful())
+                            {
+                                Toast.makeText(DiaryContentActivity.this, "Changes saved successfully", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+
+                        }
+                    });
         }
     });
 

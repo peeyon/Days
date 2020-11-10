@@ -133,6 +133,18 @@
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
         />
+    <Button
+        android:id="@+id/save_changes_button"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_ui"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="Save changes"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        />
 </RelativeLayout>
 
 
