@@ -111,7 +111,22 @@ protected void onCreate(Bundle savedInstanceState) {
         }
     });
 
+    DeleteButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            diariesRef.child(diary_id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful())
+                    {
+                        Toast.makeText(DiaryContentActivity.this, "Diary deleted successfully", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
 
+                }
+            });
+        }
+    });
 
 }
 
