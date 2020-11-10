@@ -30,18 +30,22 @@
         app:cardCornerRadius="15dp"
         app:cardElevation="10dp"
         >
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
         <TextView
             android:id="@+id/no_friends_alert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="It seems you haven't added your friends yet"
             android:textStyle="bold"
+            android:layout_centerInParent="true"
             android:padding="15dp"
-            android:layout_marginTop="100dp"
             android:textSize="20sp"
             />
         <androidx.recyclerview.widget.RecyclerView
@@ -50,6 +54,8 @@
             android:layout_height="match_parent"
             android:padding="15dp"
             />
+        </RelativeLayout>
+    </ScrollView>
     </androidx.cardview.widget.CardView>
 
     <Button
