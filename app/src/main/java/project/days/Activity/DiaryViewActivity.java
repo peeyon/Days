@@ -62,23 +62,25 @@ public class DiaryViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_diary_view);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
         gridLayoutManager.setReverseLayout(true);
-
-
-        type =  getIntent().getStringExtra("type");
-        diaryReference = FirebaseDatabase.getInstance().getReference().child("Diaries");
-        if (type.equals("personal"))
-            tt = "Private Diaries";
-        if (type.equals("group"))
-            tt = "Shared Diaries";
-
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getCurrentUser().getUid();
+        usersReference =  FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
+        type =  getIntent().getStringExtra("type");
+        diaryReference = FirebaseDatabase.getInstance().getReference().child("Diaries");
+        if (type.equals("personal")) {
+            tt = "Private Diaries";
+            diaryReference = usersReference.child("Private Diaries");
+        }
+        if (type.equals("group")) {
+            tt = "Shared Diaries";
+            diaryReference = FirebaseDatabase.getInstance().getReference().child("Shared Diaries");
+        }
         backBtn = findViewById(R.id.bck_arrow_icon_dmain);
         createButton = findViewById(R.id.create_diary_button);
         createText = findViewById(R.id.create_diary_text);
         recyclerLayout = findViewById(R.id.grid_dmain);
         recyclerLayout.setLayoutManager(gridLayoutManager);
-        usersReference =  FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
+
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,10 +139,11 @@ public class DiaryViewActivity extends AppCompatActivity {
             public DiariesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
                 final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.diary_view_layout,parent,false);
-                usersReference.addValueEventListener(new ValueEventListener() {
+                Toast.makeText(DiaryViewActivity.this, post_key, Toast.LENGTH_SHORT).show();
+                usersReference.child(tt).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (!snapshot.child(tt).hasChild(post_key))
+                        if (!snapshot.hasChild(post_key))
                         {
                             view.setVisibility(View.GONE);
                             AlertText.setVisibility(View.VISIBLE);
@@ -205,11 +208,21 @@ public class DiaryViewActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task task) {
                                     if (task.isSuccessful())
                                     {
-                                        HashMap hmap = new HashMap();
-                                        hmap.put("diary_id", name+currentUserID);
-                                        usersReference.child(tt).child(name+currentUserID).updateChildren(hmap);
-                                        Toast.makeText(DiaryViewActivity.this, "Diary created successfully", Toast.LENGTH_SHORT).show();
-                                        finish();
+                                        if (tt.equals("Private Diaries"))
+                                        {
+                                            HashMap hmap = new HashMap();
+                                            hmap.put("name", name);
+                                            usersReference.child(tt).child(name+currentUserID).updateChildren(hmap);
+                                            Toast.makeText(DiaryViewActivity.this, "Diary created successfully", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }
+                                        else {
+                                            HashMap hmap = new HashMap();
+                                            hmap.put("diary_id", name + currentUserID);
+                                            usersReference.child(tt).child(name + currentUserID).updateChildren(hmap);
+                                            Toast.makeText(DiaryViewActivity.this, "Diary created successfully", Toast.LENGTH_SHORT).show();
+                                            finish();
+                                        }
                                     }
                                     else
                                     {
