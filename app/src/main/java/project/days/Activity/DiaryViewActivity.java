@@ -208,6 +208,7 @@ public class DiaryViewActivity extends AppCompatActivity {
                                         hmap.put("diary_id", name+currentUserID);
                                         usersReference.child(tt).child(name+currentUserID).updateChildren(hmap);
                                         Toast.makeText(DiaryViewActivity.this, "Diary created successfully", Toast.LENGTH_SHORT).show();
+                                        finish();
                                     }
                                     else
                                     {

@@ -13,11 +13,10 @@
         android:roundIcon="@drawable/lg1"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.DiaryViewActivity"></activity>
         <activity android:name=".Activity.verifyemail" />
-        <activity android:name=".DiaryContentActivity" />
+        <activity android:name=".Activity.DiaryContentActivity" />
         <activity
-            android:name=".DiaryViewActivity"
+            android:name=".Activity.DiaryViewActivity"
             android:parentActivityName=".Activity.MainActivity" />
         <activity
             android:name=".Activity.SettingsActivity"
