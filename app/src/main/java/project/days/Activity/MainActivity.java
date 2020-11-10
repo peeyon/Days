@@ -3,6 +3,7 @@ package project.days.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     String nickname,currentUserID;
     private DatabaseReference usersRef;
     private TextView greetText;
+    private Button FriendsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         greetText = findViewById(R.id.main_greet_1);
         mAuth = FirebaseAuth.getInstance();
+        FriendsButton = (Button) findViewById(R.id.friends_button);
         currentUserID = mAuth.getCurrentUser().getUid();
         usersRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUserID);
         usersRef.addValueEventListener(new ValueEventListener() {
@@ -83,6 +86,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent diaryIntent = new Intent(MainActivity.this, DiaryViewActivity.class);
                 diaryIntent.putExtra("type","group");
                 startActivity(diaryIntent);
+            }
+        });
+        FriendsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent friendsIntent = new Intent(MainActivity.this, FriendsActivity.class);
+                startActivity(friendsIntent);
             }
         });
     }

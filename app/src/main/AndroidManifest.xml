@@ -13,7 +13,8 @@
         android:roundIcon="@drawable/lg1"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.FriendsActivity"></activity>
+        <activity android:name=".Activity.AddFriendsActivity"></activity>
+        <activity android:name=".Activity.FriendsActivity" />
         <activity android:name=".Activity.verifyemail" />
         <activity android:name=".Activity.DiaryContentActivity" />
         <activity
