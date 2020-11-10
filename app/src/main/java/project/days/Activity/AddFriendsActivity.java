@@ -40,7 +40,7 @@ public class AddFriendsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FirebaseRecyclerOptions<Friends> options;
     FirebaseRecyclerAdapter<Friends, FriendsViewHolder> firebaseRecyclerAdapter;
-    String person_ref, currentUserID;
+    String person_ref, currentUserID,name,nickname,gender,dob;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,12 @@ public class AddFriendsActivity extends AppCompatActivity {
                         protected void onBindViewHolder(@NonNull FriendsViewHolder holder, int position, @NonNull Friends model) {
                             person_ref = getRef(position).getKey();
                             holder.setName(model.getName());
+                            name = model.getName();
+                            gender = model.getGender();
+                            dob = model.getDOB();
+                            nickname = model.getNickname();
                         }
+
 
                         @NonNull
                         @Override
@@ -88,7 +93,10 @@ public class AddFriendsActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     final HashMap<String, Object> hashMap = new HashMap<>();
-                                    hashMap.put(currentUserID,"friends");
+                                    hashMap.put("Name",name);
+                                    hashMap.put("Gender",gender);
+                                    hashMap.put("Nickname",nickname);
+                                    hashMap.put("DOB",dob);
                                     friendsRef.child(person_ref).child("Friends").child(currentUserID)
                                             .updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
                                         @Override

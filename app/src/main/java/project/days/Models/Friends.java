@@ -5,9 +5,9 @@ public class Friends {
     public Friends(){}
 
     public Friends(String name, String nickname, String gender, String DOB) {
-        Name = name;
-        Nickname = nickname;
-        Gender = gender;
+        this.Name = name;
+        this.Nickname = nickname;
+        this.Gender = gender;
         this.DOB = DOB;
     }
 
