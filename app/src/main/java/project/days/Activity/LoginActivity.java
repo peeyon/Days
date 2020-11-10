@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         Sprite doubleBounce = new Wave();
         progressBar.setIndeterminateDrawable(doubleBounce);
 
-        if(mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified())
+        if(mAuth.getCurrentUser() != null)
         {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();

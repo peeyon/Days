@@ -163,6 +163,7 @@ public class DiaryViewActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent dIntent = new Intent(DiaryViewActivity.this, DiaryContentActivity.class);
                         dIntent.putExtra("diary_id",post_key);
+                        dIntent.putExtra("type",tt);
                         startActivity(dIntent);
                     }
                 });
@@ -197,7 +198,7 @@ public class DiaryViewActivity extends AppCompatActivity {
                         else
                         {
                             HashMap<String, Object> hashMap = new HashMap<>();
-                            hashMap.put("text",name);
+                            hashMap.put("name",name);
 
                             diaryReference.child(name + currentUserID).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
                                 @Override

@@ -1,19 +1,19 @@
 package project.days.Models;
 
 public class Diaries {
-    public String text;
+    public String name;
 
     public Diaries() {}
 
-    public Diaries(String text) {
-        this.text = text;
+    public Diaries(String name) {
+        this.name = name;
     }
 
     public String getDiary_name() {
-        return text;
+        return name;
     }
 
     public void setDiary_name(String text) {
-        this.text = text;
+        this.name = name;
     }
 }
