@@ -28,7 +28,6 @@
         android:background="@android:color/transparent"
         android:backgroundTint="@android:color/white"
         android:padding="5dp"
-        android:text="diary_name"
         android:textColor="@android:color/white"
         android:textSize="30sp"
         android:textStyle="bold" />

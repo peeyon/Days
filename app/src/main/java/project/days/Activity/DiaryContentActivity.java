@@ -35,18 +35,18 @@ protected void onCreate(Bundle savedInstanceState) {
     currentUserID = mAuth.getCurrentUser().getUid();
     type = getIntent().getStringExtra("type");
     diary_id = getIntent().getStringExtra("diary_id");
-    diariesRef = FirebaseDatabase.getInstance().getReference().child("Diaries").child(type);
+    diariesRef = FirebaseDatabase.getInstance().getReference().child("Diaries");
 
     DiaryNameTV = (EditText) findViewById(R.id.content_diary_name);;
     EditButton = (CircleImageView) findViewById(R.id.content_edit_icon);
     DeleteButton = (CircleImageView) findViewById(R.id.content_delete_icon);
 
-    diariesRef.addValueEventListener(new ValueEventListener() {
+    diariesRef.child(diary_id).addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
             if (snapshot.exists())
             {
-                String name = snapshot.child(diary_id).child("name").getValue().toString();
+                String name = snapshot.child("name").getValue().toString();
                 DiaryNameTV.setText(name);
             }
 
@@ -57,7 +57,6 @@ protected void onCreate(Bundle savedInstanceState) {
 
         }
     });
-
 
 
 
