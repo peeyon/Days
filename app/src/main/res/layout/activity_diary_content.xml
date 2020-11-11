@@ -69,7 +69,11 @@
 
 
         </androidx.cardview.widget.CardView>
-
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="115dp">
     <androidx.cardview.widget.CardView
         android:layout_below="@id/crt11"
         android:layout_width="300dp"
@@ -88,11 +92,14 @@
             android:hint="Enter here"
 
             />
+
         <ImageView
             android:id="@+id/myImage"
             android:layout_width="match_parent"
             android:layout_height="450dp"/>
     </androidx.cardview.widget.CardView>
+</ScrollView>
+
 
 
     <RelativeLayout
@@ -128,7 +135,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="79dp"
         android:background="@drawable/bg_ui"
-        android:text="Videos"
+        android:text="Upload"
         android:textAllCaps="true"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
