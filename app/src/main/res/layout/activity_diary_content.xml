@@ -88,7 +88,8 @@
         <EditText
             android:id="@+id/diary_content_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="450dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:inputType="textLongMessage"
@@ -99,7 +100,9 @@
         <ImageView
             android:id="@+id/myImage"
             android:layout_width="match_parent"
-            android:layout_height="450dp"/>
+            android:layout_height="wrap_content"
+            android:minHeight="450dp"
+            />
     </androidx.cardview.widget.CardView>
 
     <Button
