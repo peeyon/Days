@@ -3,6 +3,7 @@ package project.days.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,12 +11,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,9 +47,10 @@ public class DiaryContentActivity extends AppCompatActivity {
     ImageView BackButton,imageView;
     FirebaseAuth mAuth;
     DatabaseReference diariesRef, usersRef;
-    String currentUserID, type, diary_id;
+    String currentUserID, type, diary_id, durl;
     private Uri filePath;
     Button SaveButton,Photo,upload;
+    private CardView cardView;
     private StorageReference storageReference;
 
 @Override
@@ -74,10 +74,10 @@ protected void onCreate(Bundle savedInstanceState) {
     BackButton = (ImageView) findViewById(R.id.content_view_back_icon);
     DeleteButton = (CircleImageView) findViewById(R.id.content_delete_icon);
     DiaryContentET = (EditText) findViewById(R.id.diary_content_text);
+    cardView = (CardView) findViewById(R.id.cview_1);
     SaveButton = (Button) findViewById(R.id.save_changes_button);
     Photo = (Button) findViewById(R.id.content_add_photos);
-    imageView = (ImageView) findViewById(R.id.myImage);
-    upload = (Button) findViewById(R.id.content_add_videos);
+    imageView = (ImageView) findViewById(R.id.image_view_card_imview);
 
     diariesRef.child(diary_id).addValueEventListener(new ValueEventListener() {
         @Override
@@ -85,7 +85,16 @@ protected void onCreate(Bundle savedInstanceState) {
             if (snapshot.exists())
             {
                 String name = snapshot.child("name").getValue().toString();
+                String content = null;
+                if (snapshot.child("content").exists())
+                     content = snapshot.child("content").getValue().toString();
+                if (snapshot.child("image").exists())
+                    cardView.setVisibility(View.VISIBLE);
+                    imageView.setImageURI(Uri.parse(snapshot.child("image").getValue().toString()));
+                if (content != null)
+                    DiaryContentET.setText(content);
                 DiaryNameTV.setText(name);
+
             }
 
         }
@@ -109,7 +118,7 @@ protected void onCreate(Bundle savedInstanceState) {
         public void onFocusChange(View v, boolean hasFocus) {
             if (!hasFocus)
             {
-                HashMap hashMap = new HashMap();
+                HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put("name",DiaryNameTV.getText().toString());
                 diariesRef.child(diary_id).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
                     @Override
@@ -136,12 +145,7 @@ protected void onCreate(Bundle savedInstanceState) {
             chooseImage();
         }
     });
-    upload.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            UploadImage();
-        }
-    });
+
     BackButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -169,9 +173,12 @@ protected void onCreate(Bundle savedInstanceState) {
     SaveButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            HashMap hashMap = new HashMap();
+            UploadImage();
+            HashMap<String, Object> hashMap = new HashMap<String, Object>();
             hashMap.put("name",DiaryNameTV.getText().toString());
             hashMap.put("content",DiaryContentET.getText().toString());
+            if (durl != null)
+                hashMap.put("image",durl);
             diariesRef.child(diary_id).updateChildren(hashMap)
                     .addOnCompleteListener(new OnCompleteListener() {
                         @Override
@@ -215,6 +222,7 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
             reference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    durl = taskSnapshot.getStorage().getDownloadUrl().toString();
                     progressDialog.dismiss();
                     Toast.makeText(DiaryContentActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
                 }
@@ -226,6 +234,7 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
 
                 }
             });
+
         }
     }
 

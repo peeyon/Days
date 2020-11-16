@@ -84,62 +84,48 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         >
-
-        <EditText
-            android:id="@+id/diary_content_text"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="450dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:inputType="textLongMessage"
-            android:hint="Enter here"
+            android:orientation="vertical"
+            android:padding="10dp"
+            >
+            <EditText
+                android:id="@+id/diary_content_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="300dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:inputType="textLongMessage"
+                android:hint="Enter here"
 
-            />
+                />
+        </LinearLayout>
 
-        <ImageView
-            android:id="@+id/myImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="450dp"
-            />
     </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/content_add_photos"
         android:layout_width="179dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_centerHorizontal="true"
         android:layout_below="@id/ctt2"
         android:background="@drawable/bg_ui"
-        android:text="Photos"
+        android:text="Select photo"
         android:layout_marginTop="30dp"
         android:textAllCaps="true"
         android:textColor="@color/colorWhite"
-        android:textSize="18sp"
+        android:textSize="16sp"
         />
-
-        <Button
-            android:id="@+id/content_add_videos"
-            android:layout_width="173dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ctt2"
-            android:layout_marginTop="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/bg_ui"
-            android:text="Upload"
-            android:textAllCaps="true"
-            android:textColor="@color/colorWhite"
-            android:textSize="18sp" />
 
         <Button
         android:id="@+id/save_changes_button"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_below="@id/content_add_videos"
         android:background="@drawable/bg_ui"
         android:layout_centerHorizontal="true"
+            android:layout_below="@id/content_add_photos"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="15dp"
         android:text="Save changes"
@@ -147,8 +133,9 @@
         android:textStyle="bold"
         />
         <androidx.cardview.widget.CardView
+            android:id="@+id/cview_1"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:layout_below="@id/save_changes_button"
             android:layout_marginTop="20dp"
             app:cardCornerRadius="15dp"
@@ -160,13 +147,13 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 >
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/images_recycler_view"
+                <ImageView
+                    android:id="@+id/image_view_card_imview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
                     />
             </RelativeLayout>
 
