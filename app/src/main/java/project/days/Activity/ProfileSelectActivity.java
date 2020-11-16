@@ -113,6 +113,7 @@ public class ProfileSelectActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         downloadUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+
                         usersRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {

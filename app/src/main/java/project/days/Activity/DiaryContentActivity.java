@@ -7,10 +7,8 @@ import androidx.cardview.widget.CardView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,14 +25,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import project.days.R;
@@ -46,12 +40,14 @@ public class DiaryContentActivity extends AppCompatActivity {
     CircleImageView EditButton, DeleteButton;
     ImageView BackButton,imageView;
     FirebaseAuth mAuth;
+    Uri imageUri;
     DatabaseReference diariesRef, usersRef;
-    String currentUserID, type, diary_id, durl;
-    private Uri filePath;
-    Button SaveButton,Photo,upload;
+    String currentUserID, type, diary_id,imageUrl;
+    Task<Uri> durl;
+    Button SaveButton,Photo;
     private CardView cardView;
-    private StorageReference storageReference;
+    private StorageReference storageReference, filePath;
+    ProgressDialog mDialog;
 
 @Override
 protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +58,7 @@ protected void onCreate(Bundle savedInstanceState) {
     storageReference = FirebaseStorage.getInstance().getReference("image");
     currentUserID = mAuth.getCurrentUser().getUid();
     type = getIntent().getStringExtra("type");
+    mDialog = new ProgressDialog(this);
     diary_id = getIntent().getStringExtra("diary_id");
     if (type.equals("Private Diaries")) {
         diariesRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID).child("Private Diaries");
@@ -88,9 +85,16 @@ protected void onCreate(Bundle savedInstanceState) {
                 String content = null;
                 if (snapshot.child("content").exists())
                      content = snapshot.child("content").getValue().toString();
-                if (snapshot.child("image").exists())
+                if (snapshot.child("image").exists()) {
                     cardView.setVisibility(View.VISIBLE);
-                    imageView.setImageURI(Uri.parse(snapshot.child("image").getValue().toString()));
+                    storageReference.child(currentUserID + diary_id + ".jpg").getDownloadUrl()
+                            .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    imageView.setImageURI(uri);
+                                }
+                            });
+                }
                 if (content != null)
                     DiaryContentET.setText(content);
                 DiaryNameTV.setText(name);
@@ -177,8 +181,6 @@ protected void onCreate(Bundle savedInstanceState) {
             HashMap<String, Object> hashMap = new HashMap<String, Object>();
             hashMap.put("name",DiaryNameTV.getText().toString());
             hashMap.put("content",DiaryContentET.getText().toString());
-            if (durl != null)
-                hashMap.put("image",durl);
             diariesRef.child(diary_id).updateChildren(hashMap)
                     .addOnCompleteListener(new OnCompleteListener() {
                         @Override
@@ -202,40 +204,56 @@ protected void onActivityResult(int requestCode, int resultCode, @Nullable Inten
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == 1 && resultCode == RESULT_OK && data!=null && data.getData()!= null)
     {
-        filePath = data.getData();
-        try{
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),filePath);
-            imageView.setImageBitmap(bitmap);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        cardView.setVisibility(View.VISIBLE);
+        imageUri = data.getData();
+        imageView.setImageURI(imageUri);
     }
 }
     private void UploadImage() {
-        if (filePath != null) {
-            final ProgressDialog progressDialog = new ProgressDialog(DiaryContentActivity.this);
-            progressDialog.setTitle("Uploading");
-            progressDialog.show();
-            StorageReference reference = storageReference.child("image/" + UUID.randomUUID().toString());
-            reference.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    durl = taskSnapshot.getStorage().getDownloadUrl().toString();
-                    progressDialog.dismiss();
-                    Toast.makeText(DiaryContentActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                    progressDialog.setMessage("Uploaded" + (int) progress + "%");
+        mDialog.setTitle("Please wait");
+        mDialog.setMessage("We are setting up your profile");
+        mDialog.show();
+        filePath = storageReference.child(currentUserID + diary_id + ".jpg");
+        filePath.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        durl = taskSnapshot.getStorage().getDownloadUrl();
+                        diariesRef.child(diary_id).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists())
+                                {
+                                    HashMap<String, Object> hashMap = new HashMap<String, Object>();
+                                    hashMap.put("image",durl.toString());
+                                    final ProgressDialog mDialog = new ProgressDialog(getApplicationContext());
 
-                }
-            });
+                                    diariesRef.child(diary_id).updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener() {
+                                        @Override
+                                        public void onComplete(@NonNull Task task) {
+                                            if (task.isSuccessful())
+                                            {
+                                                mDialog.hide();
+                                                Intent mainIntent = new Intent(DiaryContentActivity.this, MainActivity.class);
+                                                mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                startActivity(mainIntent);
+                                            }
+                                            else
+                                            {
+                                                String message = task.getException().getMessage();
+                                                Toast.makeText(DiaryContentActivity.this, "Error occured. " + message, Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
-        }
+                            }
+                        });
+                    }
+                });
     }
 
     private void chooseImage() {
